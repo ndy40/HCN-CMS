@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  web:
+    restart: unless-stopped
+    build: .
+    volumes:
+      - ./hcn_cms:/app/hcn_cms
+      - web-static:/app/hcn_cms/static
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000"
+    env_file:
+      - .env
+    environment:
+      DEBUG: "true"
+    networks:
+      - internal_web
+      - internal_db
+    depends_on:
+      - db
+
+  nginx:
+    restart: always
+    build: ./docker/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - web-static:/app/hcn_cms/static
+    networks:
+      - internal_web
+    depends_on:
+      - web
+
+  db:
+    image: postgres:13.3
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    networks:
+      - internal_db
+    environment:
+      POSTGRES_DB: ${MYSQL_DATABASE}
+      POSTGRES_USER: ${MYSQL_USER}
+      POSTGRES_PASSWORD: ${MYSQL_PASSWORD}
+
+networks:
+  internal_web:
+  internal_db:
+
+volumes:
+  web-static:
+  web-django:
