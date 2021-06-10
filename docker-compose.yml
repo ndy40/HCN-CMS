@@ -17,6 +17,7 @@ services:
     networks:
       - internal_web
       - internal_db
+      - internal_memcached
     depends_on:
       - db
 
@@ -44,9 +45,21 @@ services:
       POSTGRES_USER: ${MYSQL_USER}
       POSTGRES_PASSWORD: ${MYSQL_PASSWORD}
 
+  memcache:
+    image: memcached:1.6.9-alpine
+    restart: always
+    ports:
+      - '11211'
+    entrypoint:
+      - memcached
+      - -m 64
+    networks:
+      - internal_memcached
+
 networks:
   internal_web:
   internal_db:
+  internal_memcached:
 
 volumes:
   web-static:

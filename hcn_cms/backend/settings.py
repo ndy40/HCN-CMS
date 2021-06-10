@@ -85,6 +85,13 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': '{server}:{port}'.format(server=os.environ['CACHE_SERVER'], port=os.environ['CACHE_SERVER_PORT'])
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
