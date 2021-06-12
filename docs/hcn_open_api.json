@@ -76,20 +76,26 @@ components:
         properties:
             id: 
                 type: integer
+                example: 1
             title: 
                 type: string
+                example: New series 01
             description: 
                 type: string
+                example: Description of series goes here
             start_date:
                 type: string
                 format: date-format
+                example: 2020-07-01T01:00:00+00:00
             end_date: 
                 type: string
                 format: date-format
+                example: 2020-07-01T01:00:00+00:00
             tags:
                 type: array
                 items: 
                     type: string
+                    example: tag1
     Series-write:
         type: object
         required:
