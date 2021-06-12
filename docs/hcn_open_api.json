@@ -6,7 +6,9 @@ servers:
   - url: 'http://localhost:8000'
 paths:
   /api/series:
-    description: A series is a way to group and categorise sermons together and usually have a start and end date that spans weeks or months.
+    description: >-
+      A series is a way to group and categorise sermons together and usually
+      have a start and end date that spans weeks or months.
     get:
       description: Fetch all series
       operationId: getAllSeries
@@ -21,7 +23,7 @@ paths:
         - name: start_date
           in: query
           required: false
-          schema: 
+          schema:
             type: string
             format: date-format
         - name: end_date
@@ -35,15 +37,15 @@ paths:
           required: false
           schema:
             type: string
-        - name: "tags[]"
+        - name: 'tags[]'
           in: query
-          schema: 
+          schema:
             type: string
         - name: 'order[start_date]'
           in: query
-          schema: 
+          schema:
             type: string
-            enum: 
+            enum:
               - ASC
               - DESC
         - name: 'order[end_date]'
@@ -52,24 +54,24 @@ paths:
           schema:
             type: string
             enum:
-                - ASC
-                - DESC
+              - ASC
+              - DESC
         - name: 'order[title]'
           in: query
           required: false
           schema:
             type: string
-            enum: 
-                - ASC
-                - DESC         
+            enum:
+              - ASC
+              - DESC
       responses:
-        200:
+        '200':
           description: Series
           content:
             application/json:
               schema:
                 type: array
-                items:
+                items: null
                 $ref: '#/components/schemas/Series'
     post:
       tags:
@@ -78,41 +80,43 @@ paths:
       description: Create a new series entry
       requestBody:
         content:
-          'application/json':
-             schema:
-               $ref: '#/components/schemas/Series-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Series-write'
       responses:
-        201:
+        '201':
           description: Newly created Series
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Series'
-  /api/series/{id}:
+  '/api/series/{id}':
     description: Each series has a unique Id that can be requested for
-    get: 
+    get:
       description: Fetch series by id
       operationId: getSeriesByid
-      tags: 
+      tags:
         - Series
       parameters:
         - name: id
           in: path
-          required: True
-          schema: 
+          required: true
+          schema:
             type: integer
       responses:
-        200:
+        '200':
           description: Series resource
-          content: 
+          content:
             application/json:
               schema:
                 type: object
                 $ref: '#/component/schemas/Series'
-        404:
+        '404':
           description: Resource not found
-  /api/series/{id}/bookmark:
-    description: Users will like to bookmark a series and as a result bookmark all the sermons under the series.
+  '/api/series/{id}/bookmark':
+    description: >-
+      Users will like to bookmark a series and as a result bookmark all the
+      sermons under the series.
     patch:
       description: A user can choose to bookmark a preaching series
       tags:
@@ -121,67 +125,66 @@ paths:
       parameters:
         - name: id
           in: path
-          required: True
+          required: true
           schema:
             type: integer
       responses:
-        204:
+        '204':
           description: Series bookmarked
-        404:
-          description: Series not found    
+        '404':
+          description: Series not found
 components:
   schemas:
     Series:
-        type: object
-        required:
-            - id
-            - title
-        properties:
-            id: 
-                type: integer
-                example: 1
-            title: 
-                type: string
-                example: New series 01
-            description: 
-                type: string
-                example: Description of series goes here
-            start_date:
-                type: string
-                format: date-format
-                example: 2020-07-01T01:00:00+00:00
-            end_date: 
-                type: string
-                format: date-format
-                example: 2020-07-01T01:00:00+00:00
-            tags:
-                type: array
-                items: 
-                    type: string
-                    example: tag1
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: New series 01
+        description:
+          type: string
+          example: Description of series goes here
+        start_date:
+          type: string
+          format: date-format
+          example: 2020-07-01T01:00:00.000Z
+        end_date:
+          type: string
+          format: date-format
+          example: 2020-07-01T01:00:00.000Z
+        tags:
+          type: array
+          items:
+            type: string
+            example: tag1
     Series-write:
-        type: object
-        required:
-            - description
-            - title
-        properties:
-            id: 
-                type: integer
-            title: 
-                type: string
-            description: 
-                type: string
-            start_date:
-                type: string
-                format: date-format
-            end_date: 
-                type: string
-                format: date-format
-            tags:
-                type: array
-                items: 
-                    type: string
-                    
+      type: object
+      required:
+        - description
+        - title
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        start_date:
+          type: string
+          format: date-format
+        end_date:
+          type: string
+          format: date-format
+        tags:
+          type: array
+          items:
+            type: string
     Error:
       type: object
       required:
