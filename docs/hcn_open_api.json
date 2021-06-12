@@ -84,6 +84,21 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/component/schemas/Series'
+  /api/series/{id}/bookmark:
+    patch:
+        description: A user can choose to bookmark a preaching series
+        operationId: bookmarkSeriesByid
+        parameters:
+            - name: id
+              in: path
+              required: True
+              schema:
+                  type: integer
+        responses:
+            201:
+                description: Series bookmarked
+            
+
 components:
   schemas:
     Series:
