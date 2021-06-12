@@ -5,89 +5,89 @@ info:
 servers:
   - url: 'http://localhost:8000'
 paths:
-  /api/series:
-    description: A series is a way to group and categorise sermons together and usually have a start and end date that spans weeks or months.
-    get:
-        description: Fetch all series
-        operationId: getAllSeries
-        tags:
-            - Series
-        parameters:
-            - name: title
-              in: query
-              required: false
-              schema:
-                  type: string
-            - name: start_date
-              in: query
-              required: false
-              schema: 
-                  type: string
-                  format: date-format
-            - name: end_date
-              in: query
-              required: false
-              schema:
-                  type: string
-                  format: date-format
-            - name: tags
-              in: query
-              required: false
-              schema:
-                  type: string
-            - name: "tags[]"
-              in: query
-              schema: 
-                type: string
-            - name: 'order[start_date]'
-              in: query
-              schema: 
-                  type: string
-                  enum: 
-                      - ASC
-                      - DESC
-            - name: 'order[end_date]'
-              in: query
-              required: false
-              schema:
-                  type: string
-                  enum:
-                      - ASC
-                      - DESC
-            - name: 'order[title]'
-              in: query
-              required: false
-              schema:
-                  type: string
-                  enum: 
-                      - ASC
-                      - DESC         
-        responses:
-            200:
-                description: Series
+    /api/series:
+        description: A series is a way to group and categorise sermons together and usually have a start and end date that spans weeks or months.
+        get:
+            description: Fetch all series
+            operationId: getAllSeries
+            tags:
+                - Series
+            parameters:
+                - name: title
+                in: query
+                required: false
+                schema:
+                    type: string
+                - name: start_date
+                in: query
+                required: false
+                schema: 
+                    type: string
+                    format: date-format
+                - name: end_date
+                in: query
+                required: false
+                schema:
+                    type: string
+                    format: date-format
+                - name: tags
+                in: query
+                required: false
+                schema:
+                    type: string
+                - name: "tags[]"
+                in: query
+                schema: 
+                    type: string
+                - name: 'order[start_date]'
+                in: query
+                schema: 
+                    type: string
+                    enum: 
+                        - ASC
+                        - DESC
+                - name: 'order[end_date]'
+                in: query
+                required: false
+                schema:
+                    type: string
+                    enum:
+                        - ASC
+                        - DESC
+                - name: 'order[title]'
+                in: query
+                required: false
+                schema:
+                    type: string
+                    enum: 
+                        - ASC
+                        - DESC         
+            responses:
+                200:
+                    description: Series
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                $ref: '#/components/schemas/Series'
+        post:
+            tags:
+                - Series
+            operationId: postNewSeries
+            description: Create a new series entry
+            requestBody:
                 content:
-                    application/json:
+                    'application/json':
                         schema:
-                            type: array
-                            items:
-                               $ref: '#/components/schemas/Series'
-    post:
-        tags:
-            - Series
-        operationId: postNewSeries
-        description: Create a new series entry
-        requestBody:
-            content:
-                'application/json':
-                    schema:
-                        $ref: '#/components/schemas/Series-write'
-        responses:
-            201:
-                description: Newly created Series
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/Series'
+                            $ref: '#/components/schemas/Series-write'
+            responses:
+                201:
+                    description: Newly created Series
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Series'
   /api/series/{id}:
     description: Each series has a unique Id that can be requested for
     get: 
@@ -127,7 +127,7 @@ paths:
                 description: Series bookmarked
             404:
                 description: Series not found
-                   
+               
 components:
   schemas:
     Series:
