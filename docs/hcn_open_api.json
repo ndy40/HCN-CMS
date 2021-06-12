@@ -90,7 +90,6 @@ paths:
                             $ref: '#/component/schemas/Series'
             404:
                 description: Resource not found
-                
   /api/series/{id}/bookmark:
     description: Users will like to bookmark a series and as a result bookmark all the sermons under the series.
     patch:
