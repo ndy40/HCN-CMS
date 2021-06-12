@@ -52,7 +52,9 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Series'
+                            type: array
+                            items:
+                               $ref: '#/components/schemas/Series'
     post:
         requestBody:
             content:
