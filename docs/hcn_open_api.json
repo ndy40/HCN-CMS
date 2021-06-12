@@ -55,6 +55,23 @@ paths:
                             type: array
                             items:
                                $ref: '#/components/schemas/Series'
+    post:
+        tags:
+            - Series
+        operationId: postNewSeries
+        description: Create a new series entry
+        requestBody:
+            content:
+                'application/json':
+                    schema:
+                        $ref: '#/components/schemas/Series-write'
+        responses:
+            201:
+                description: Newly created Series
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Series'
   /api/series/{id}:
     description: Each series has a unique Id that can be requested for
     get: 
