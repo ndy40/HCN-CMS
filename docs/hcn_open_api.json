@@ -38,12 +38,20 @@ paths:
             - name: "tags[]"
               in: query
               schema: 
-                  type: string
+                type: string
             - name: 'order[start_date]'
               in: query
               schema: 
                   type: string
                   enum: 
+                      - ASC
+                      - DESC
+            - name: 'order[end_date]'
+              in: query
+              required: false
+              schema:
+                  type: string
+                  enum:
                       - ASC
                       - DESC
         responses:
