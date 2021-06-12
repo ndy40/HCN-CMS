@@ -104,6 +104,8 @@ paths:
         responses:
             204:
                 description: Series bookmarked
+            404:
+                description: Series not found
                    
 components:
   schemas:
