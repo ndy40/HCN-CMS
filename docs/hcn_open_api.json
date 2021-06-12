@@ -105,10 +105,10 @@ paths:
         200:
           description: Series resource
           content: 
-          application/json:
-            schema:
-              type: object
-              $ref: '#/component/schemas/Series'
+            application/json:
+              schema:
+                type: object
+                $ref: '#/component/schemas/Series'
         404:
           description: Resource not found
   /api/series/{id}/bookmark:
