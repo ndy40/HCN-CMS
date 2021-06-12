@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  version: 0.1.0
+  title: HCN-CMS-API
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /api/series:
+    get:
+        description: Fetch all series
+        operationId: getAllSeries
+        tags:
+            - Series
+        parameters:
+            - name: title
+              in: query
+              required: false
+              schema:
+                  type: string
+            - name: start_date
+              in: query
+              required: false
+              schema: 
+                  type: string
+                  format: date-format
+            - name: end_date
+              in: query
+              required: false
+              schema:
+                  type: string
+                  format: date-format
+            - name: tags
+              in: query
+              required: false
+              schema:
+                  type: string
+            - name: "tags[]"
+              in: query
+              schema: 
+                  type: string
+            - name: 'order[start_date]'
+              in: query
+              schema: 
+                  type: string
+                  enum: 
+                      - ASC
+                      - DESC
+        responses:
+            200:
+                description: Series
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Series'
+
+components:
+  schemas:
+    Series:
+        type: object
+        required:
+            - id
+            - title
+        properties:
+            id: 
+                type: integer
+            title: 
+                type: string
+            description: 
+                type: string
+            start_date:
+                type: string
+                format: date-format
+            end_date: 
+                type: string
+                format: date-format
+            tags:
+                type: array
+                items: 
+                    type: string
+                    
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
