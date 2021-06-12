@@ -163,6 +163,11 @@ paths:
               type: array
               items: 
                   type: string
+        - name: preacher
+          in: query
+          required: false
+          schema: 
+              type: string
       responses:
         200:
           description: List of sermons
