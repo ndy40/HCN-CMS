@@ -87,7 +87,6 @@ paths:
                         schema:
                             $ref: '#/component/schemas/Series'
   /api/series/{id}/bookmark:
-    description: Users will like to bookmark a series and as a result bookmark all the sermons under the series.
     patch:
         description: A user can choose to bookmark a preaching series
         operationId: bookmarkSeriesByid
