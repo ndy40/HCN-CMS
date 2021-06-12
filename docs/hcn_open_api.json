@@ -52,13 +52,47 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/Series'
-
+    post:
+        requestBody:
+            content:
+                'application/json':
+                    schema:
+                        $ref: '#/components/schemas/Series-write'
+        responses:
+            201:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Series'
+                
 components:
   schemas:
     Series:
         type: object
         required:
             - id
+            - title
+        properties:
+            id: 
+                type: integer
+            title: 
+                type: string
+            description: 
+                type: string
+            start_date:
+                type: string
+                format: date-format
+            end_date: 
+                type: string
+                format: date-format
+            tags:
+                type: array
+                items: 
+                    type: string
+    Series-write:
+        type: object
+        required:
+            - description
             - title
         properties:
             id: 
