@@ -97,8 +97,6 @@ paths:
         responses:
             201:
                 description: Series bookmarked
-            
-
 components:
   schemas:
     Series:
