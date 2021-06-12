@@ -98,10 +98,9 @@ paths:
               schema:
                   type: integer
         responses:
-            201:
+            204:
                 description: Series bookmarked
-                content:
-                    application/json:
+                   
 components:
   schemas:
     Series:
