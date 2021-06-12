@@ -235,6 +235,21 @@ components:
           type: array
           items:
             type: string
+    Sermons:
+        type: object
+        properties:
+            id:
+                type: integer
+            title: 
+                type: string
+            published: 
+                type: string
+                format: date-format
+            mime_type: 
+                type: string
+            url: 
+                type: string
+                format: url
     Error:
       type: object
       required:
