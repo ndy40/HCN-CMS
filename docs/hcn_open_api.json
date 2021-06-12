@@ -6,6 +6,7 @@ servers:
   - url: 'http://localhost:8000'
 paths:
   /api/series:
+    description: A series is a way to group and categorise sermons together and usually have a start and end date that spans weeks or months.
     get:
         description: Fetch all series
         operationId: getAllSeries
