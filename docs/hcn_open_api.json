@@ -113,7 +113,7 @@ paths:
                 $ref: '#/component/schemas/Series'
         '404':
           description: Resource not found
-  '/api/series/{id}/bookmark':
+  /api/series/{id}/bookmark:
     description: >-
       Users will like to bookmark a series and as a result bookmark all the
       sermons under the series.
@@ -133,7 +133,44 @@ paths:
           description: Series bookmarked
         '404':
           description: Series not found
-
+  /api/sermons:
+    description: Get all sermons available
+    get:
+      tags:
+        - sermons
+      parameters:
+        - name: title
+          in: query
+          required: false
+          schema: 
+              type: string
+        - name: published[before|After]
+          in: query
+          required: false
+          schema: 
+              type: string
+              format: date-format
+        - name: mime_type
+          in: query
+          required: false
+          schema: 
+            type: string
+            example: mp4
+        - name: tags
+          in: query
+          required: false
+          schema: 
+              type: array
+              items: 
+                  type: string
+      responses:
+        200:
+          description: List of sermons
+          content: 
+            application/json:
+              schema:
+               
+    
 components:
   schemas:
     Series:
