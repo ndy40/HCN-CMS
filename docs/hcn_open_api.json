@@ -183,8 +183,6 @@ paths:
                   type: array
                   items: 
                       $ref: '#/components/schemas/Sermons'
-               
-    
 components:
   schemas:
     Series:
