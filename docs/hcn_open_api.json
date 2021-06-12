@@ -60,6 +60,7 @@ paths:
                         $ref: '#/components/schemas/Series-write'
         responses:
             201:
+                description: Newly created Series
                 content:
                     application/json:
                         schema:
