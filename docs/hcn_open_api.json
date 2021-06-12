@@ -65,7 +65,25 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/Series'
-                
+  /api/series/{id}:
+    get: 
+        description: Fetch series by id
+        operationId: getSeriesByid
+        tags: 
+            - Series
+        parameters:
+            - name: id
+              in: path
+              required: True
+              schema: 
+                  type: integer
+        responses:
+            200:
+                description: Series resource
+                content: 
+                    application/json:
+                        schema:
+                            $ref: '#/component/schemas/Series'
 components:
   schemas:
     Series:
