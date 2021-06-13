@@ -242,6 +242,8 @@ components:
                 type: integer
             title: 
                 type: string
+            description: 
+                type: string
             published: 
                 type: string
                 format: date-format
@@ -250,6 +252,26 @@ components:
             url: 
                 type: string
                 format: url
+            size: 
+                type: integer
+                format: int64
+            tags:
+                type: array
+                items: 
+                    type: string
+            thumbnails: 
+                type: string
+                format: url
+            series:
+                type: integer
+                example: 1
+            created_at: 
+                type: string
+                format: date-format
+            updated_at:
+                type: string
+                format: date-format
+                
     Error:
       type: object
       required:
