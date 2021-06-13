@@ -203,19 +203,16 @@ paths:
             404:
                 description: Bad request
   /api/sermons/{id}:
-      description: Sermon resource
+      tags:
+          - Sermons
       get:
-          tags:
-              - Sermons
-          operationId: getSermonById
-          description: Fetch sermon by id  
           responses:
               200:
                   description: Sermon
                   content:
                       application/json:
                           schema:
-                              $ref: '#/components/schemas/Sermons'
+                              $ref: #/components/schemas/Sermons
 
 components:
   schemas:
