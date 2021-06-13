@@ -287,6 +287,8 @@ components:
         properties:
             id:
                 type: integer
+                format: int64
+                example: 123
             title: 
                 type: string
             description: 
