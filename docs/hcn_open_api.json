@@ -299,6 +299,24 @@ paths:
           responses:
               204:
                   description: Sermon added to bookmark
+  /api/sermons/{id}/add_like:
+      description: Like a sermon
+      patch:
+          operationId: bookmarkSermonById
+          description: Add sermon to user's bookmarks
+          parameters:
+              - name: id
+                in: path
+                required: true
+                schema:
+                    type: integer
+                    example: 123
+          tags:
+              - sermons
+          responses:
+              204:
+                  description: Sermon added to bookmark
+
 components:
   schemas:
     Series:
