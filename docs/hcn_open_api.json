@@ -203,9 +203,12 @@ paths:
             404:
                 description: Bad request
   /api/sermons/{id}:
-      tags:
-          - Sermons
+      description: Sermon resource
       get:
+          tags:
+              - Sermons
+          operationId: getSermonById
+          description: Fetch sermon by id  
           responses:
               200:
                   description: Sermon
