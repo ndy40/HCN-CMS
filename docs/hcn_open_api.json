@@ -247,6 +247,7 @@ components:
             published: 
                 type: string
                 format: date-format
+                example: 2020-07-01T01:00:00+00:00
             mime_type: 
                 type: string
             url: 
