@@ -200,6 +200,8 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/Sermons'
+            404:
+                description: Bad request
 components:
   schemas:
     Series:
