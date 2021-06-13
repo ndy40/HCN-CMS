@@ -174,6 +174,19 @@ paths:
           schema: 
               type: integer
               format: int64
+        - name: created_at[before|After]
+          in: query
+          required: false
+          schema: 
+              type: string
+              format: date-format
+        - name: updated_at[before|After]
+          in: query
+          required: false
+          schema: 
+              type: string
+              format: date-format
+        
       responses:
         200:
           description: List of sermons
