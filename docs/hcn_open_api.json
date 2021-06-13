@@ -282,7 +282,16 @@ paths:
                       application/json:
                           schema:
                               $ref: '#/components/schemas/Sermons'
-
+  /api/sermons/{id}/bookmark:
+      description: Add sermon to user's bookmark
+      patch:
+          operationId: bookmarkSermonById
+          description: Add sermon to user's bookmarks 
+          tags:
+              - Sermons
+          responses:
+              204:
+                  description: Sermon added to bookmark
 components:
   schemas:
     Series:
