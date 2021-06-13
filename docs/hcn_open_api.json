@@ -13,7 +13,7 @@ paths:
       description: Fetch all series
       operationId: getAllSeries
       tags:
-        - Series
+        - series
       parameters:
         - name: title
           in: query
@@ -75,7 +75,7 @@ paths:
                 $ref: '#/components/schemas/Series'
     post:
       tags:
-        - Series
+        - series
       operationId: postNewSeries
       description: Create a new series entry
       requestBody:
@@ -96,7 +96,7 @@ paths:
       description: Fetch series by id
       operationId: getSeriesByid
       tags:
-        - Series
+        - series
       parameters:
         - name: id
           in: path
@@ -120,7 +120,7 @@ paths:
     patch:
       description: A user can choose to bookmark a preaching series
       tags:
-        - Series
+        - series
       operationId: bookmarkSeriesByid
       parameters:
         - name: id
@@ -266,7 +266,7 @@ paths:
       description: Sermon resource
       get:
           tags:
-              - Sermons
+              - sermons
           operationId: getSermonById
           description: Fetch sermon by id
           parameters:
@@ -295,7 +295,7 @@ paths:
                     type: integer
                     example: 123
           tags:
-              - Sermons
+              - sermons
           responses:
               204:
                   description: Sermon added to bookmark
