@@ -303,7 +303,7 @@ paths:
       description: Like a sermon
       patch:
           operationId: likeSermonById
-          description: Add sermon to user's bookmarks
+          description: Add a like to a sermon
           parameters:
               - name: id
                 in: path
