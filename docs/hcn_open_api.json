@@ -302,7 +302,7 @@ paths:
   /api/sermons/{id}/add_like:
       description: Like a sermon
       patch:
-          operationId: bookmarkSermonById
+          operationId: likeSermonById
           description: Add sermon to user's bookmarks
           parameters:
               - name: id
