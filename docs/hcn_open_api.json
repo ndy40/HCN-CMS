@@ -189,8 +189,8 @@ paths:
             - Sermons
         operationId: createNewSermon
         requestBody:
-            application/json:
-                conent:
+            content:
+                application/json:
                     schema:
                         $ref: '#/components/schemas/Sermons-write'
 components:
