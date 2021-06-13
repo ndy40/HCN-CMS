@@ -265,6 +265,10 @@ components:
             series:
                 type: integer
                 example: 1
+            slug: 
+                type: string
+            preacher:
+                type: string
             created_at: 
                 type: string
                 format: date-format
