@@ -186,7 +186,54 @@ paths:
           schema: 
               type: string
               format: date-format
-        
+        - name: order[published]
+          in: query
+          required: false
+          schema: 
+              type: string
+              enum:
+                  - ASC
+                  - DESC
+        - name: order[created_at]
+          in: query
+          required: false
+          schema: 
+              type: string
+              enum:
+                  - ASC
+                  - DESC
+        - name: order[updated_at]
+          in: query
+          required: false
+          schema: 
+              type: string
+              enum:
+                  - ASC
+                  - DESC
+        - name: order[preacher]
+          in: query
+          required: false
+          schema: 
+              type: string
+              enum:
+                  - ASC
+                  - DESC
+        - name: order[title]
+          in: query
+          required: false
+          schema: 
+              type: string
+              enum:
+                  - ASC
+                  - DESC
+        - name: order[series]
+          in: query
+          required: false
+          schema: 
+              type: string
+              enum:
+                  - ASC
+                  - DESC
       responses:
         200:
           description: List of sermons
