@@ -246,7 +246,7 @@ paths:
     post:
         description: Create a new sermon
         tags: 
-            - Sermons
+            - sermons
         operationId: createNewSermon
         requestBody:
             content:
