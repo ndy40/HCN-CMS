@@ -183,6 +183,16 @@ paths:
                   type: array
                   items: 
                       $ref: '#/components/schemas/Sermons'
+    post:
+        description: Create a new sermon
+        tags: 
+            - Sermons
+        operationId: createNewSermon
+        requestBody:
+            application/json:
+                conent:
+                    schema:
+                        $ref: '#/components/schemas/Sermons-write'
 components:
   schemas:
     Series:
@@ -237,6 +247,13 @@ components:
             type: string
     Sermons:
         type: object
+        required:
+            - id
+            - title
+            - description
+            - mime_type
+            - url
+            - preacher
         properties:
             id:
                 type: integer
@@ -278,7 +295,54 @@ components:
             updated_at:
                 type: string
                 format: date-format
-                
+    Sermons-write:
+        type: object
+        required:
+            - title
+            - description
+            - mime_type
+            - url
+            - preacher
+        properties:
+            title: 
+                type: string
+            description: 
+                type: string
+            published: 
+                type: string
+                format: date-format
+                example: 2020-07-01T01:00:00+00:00
+            mime_type: 
+                type: string
+            url: 
+                type: string
+                format: url
+            size: 
+                type: integer
+                format: int64
+            tags:
+                type: array
+                items: 
+                    type: string
+            thumbnails: 
+                type: string
+                format: url
+            series:
+                type: integer
+                example: 1
+            slug: 
+                type: string
+            preacher:
+                type: string
+            likes: 
+                type: integer
+            created_at: 
+                type: string
+                format: date-format
+            updated_at:
+                type: string
+                format: date-format
+
     Error:
       type: object
       required:
