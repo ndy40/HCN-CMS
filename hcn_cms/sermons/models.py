@@ -1,6 +1,20 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+
+from tagging.fields import TagField
+from tagging.registry import register
+
 
 # Create your models here.
+
+
+def validate_sermon_notes(value):
+    supported_types = ['application/pdf', 'application/msword', 'text/plain'
+                       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                       'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                       'application/vnd.ms-powerpoint']
+    if not value.file.content_type in supported_types:
+        raise ValidationError(u'Unsupported file type')
 
 
 class Series(models.Model):
@@ -8,8 +22,14 @@ class Series(models.Model):
     description = models.TextField(null=True)
     starts_at = models.DateField(null=True, db_index=True)
     ends_at = models.DateField(null=True, db_index=True)
-    cover_image = models.ImageField(upload_to='series/%Y/%m/')
-    tags = models.JSONField(null=True, db_index=True)
+    cover_image = models.ImageField(upload_to='static/image/series/%Y/%m/', null=True, blank=True)
+    tags = TagField()
+
+    class Meta:
+        verbose_name_plural = 'Series'
+
+    def __str__(self):
+        return self.title
 
 
 class Sermon(models.Model):
@@ -18,16 +38,24 @@ class Sermon(models.Model):
 
     """
     title = models.CharField(max_length=255)
-    preacher = models.CharField(max_length=225)
+    preacher = models.CharField(max_length=225, help_text='Name of preacher')
     mime_type = models.CharField(max_length=255, db_index=True)
-    url = models.URLField()
+    url = models.URLField(help_text="Link to sermon resource (recording or video) if any", null=True, blank=True)
     size = models.IntegerField(null=True)
     description = models.TextField(null=True)
-    tags = models.JSONField(null=True, db_index=True)
     likes = models.PositiveIntegerField(default=0, null=True)
     published = models.DateTimeField(null=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    thumbnail = models.ImageField(upload_to='sermons/thumbs/%Y/%m/')
+    thumbnail = models.ImageField(upload_to='sermons/thumbs/%Y/%m/', null=True, blank=True)
     series = models.ForeignKey('Series', on_delete=models.SET_NULL, null=True, db_index=True)
+    sermon_notes = models.FileField(verbose_name='Sermon Notes', upload_to='static/sermon_notes/%Y/%m/', null=True,
+                                    blank=True, validators=[validate_sermon_notes],
+                                    help_text="upload only pdf, word, txt files")
+    tags = TagField(null=True, blank=True)
 
+    class Meta:
+        ordering = ['-created_at', '-published']
+
+    def __str__(self):
+        return self.title

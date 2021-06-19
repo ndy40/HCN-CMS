@@ -13,7 +13,7 @@ if [ "$APP_ENV" != "prod" ]; then
 
   python manage.py flush --no-input
   python manage.py migrate
-#  python manage.py collectstatic --no-input --clear
+  python manage.py collectstatic --no-input --clear
 fi
 
 exec "$@"
