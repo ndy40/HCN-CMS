@@ -1,0 +1,13 @@
+[flake8]
+ignore = I901
+exclude =
+    .git,
+    __pycache__,
+    docs,
+    docker,
+    tests.py
+    migrations
+    .tox
+max-line-length = 120
+import-order-style = spoqa
+application-import-names = sermons,backends
