@@ -129,7 +129,7 @@ paths:
           required: false
           schema: 
               type: string
-        - name: published__[lte|gte]
+        - name: published
           in: query
           required: false
           schema: 
