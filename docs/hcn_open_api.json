@@ -164,26 +164,24 @@ paths:
           required: false
           schema:
               type: string
-        - name: created_at[before|After]
-          in: query
-          required: false
-          schema: 
-              type: string
-              format: date-format
-        - name: updated_at[before|After]
-          in: query
-          required: false
-          schema: 
-              type: string
-              format: date-format
-        - name: order[published]
+        - name: ordering
           in: query
           required: false
           schema: 
               type: string
               enum:
-                  - ASC
-                  - DESC
+                  - published
+                  - -published
+                  - created_at
+                  - -created_at
+                  - updated_at
+                  - -updated_at
+                  - preacher
+                  - -preacher
+                  - title
+                  - -title
+                  - series
+                  - -series
         - name: order[created_at]
           in: query
           required: false
