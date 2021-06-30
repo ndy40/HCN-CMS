@@ -37,25 +37,10 @@ paths:
           required: false
           schema:
             type: string
-        - name: 'tags[]'
+        - name: 'tags'
           in: query
           schema:
             type: string
-        - name: 'order[start_date]'
-          in: query
-          schema:
-            type: string
-            enum:
-              - ASC
-              - DESC
-        - name: 'order[end_date]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - ASC
-              - DESC
         - name: ordering
           in: query
           required: false
@@ -68,7 +53,6 @@ paths:
               - -starts_at
               - ends_at
               - -ends_at
-              - tags
       responses:
         '200':
           description: Series
