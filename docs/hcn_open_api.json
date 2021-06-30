@@ -20,13 +20,13 @@ paths:
           required: false
           schema:
             type: string
-        - name: start_date
+        - name: starts_at
           in: query
           required: false
           schema:
             type: string
             format: date-format
-        - name: end_date
+        - name: ends_at
           in: query
           required: false
           schema:
@@ -35,10 +35,6 @@ paths:
         - name: tags
           in: query
           required: false
-          schema:
-            type: string
-        - name: 'tags'
-          in: query
           schema:
             type: string
         - name: ordering
@@ -133,7 +129,7 @@ paths:
           required: false
           schema: 
               type: string
-        - name: published[before|After]
+        - name: published__[lte|gte]
           in: query
           required: false
           schema: 
