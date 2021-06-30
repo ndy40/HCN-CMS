@@ -129,7 +129,7 @@ paths:
           required: false
           schema: 
               type: string
-        - name: published
+        - name: published__[lte|gte]
           in: query
           required: false
           schema: 
@@ -159,6 +159,11 @@ paths:
           schema: 
               type: integer
               format: int64
+        - name: series__name
+          in: query
+          required: false
+          schema:
+              type: string
         - name: created_at[before|After]
           in: query
           required: false
