@@ -2,7 +2,7 @@ from admin_thumbnails import thumbnail
 from django.contrib import admin
 
 
-from .models import Series, Sermon
+from .models import Series, Sermon, Preacher
 
 
 # Register your models here.
@@ -18,7 +18,13 @@ class SeriesAdmin(admin.ModelAdmin):
 @admin.register(Sermon)
 class SermonAdmin(admin.ModelAdmin):
     exclude = ['likes', 'mime_type', 'size']
-    list_display = ['title', 'preacher', 'published', 'series', 'url', 'mime_type']
-    list_filter = ['preacher', 'series', 'published']
+    list_display = ['title', 'who_is_preaching', 'published', 'series', 'url', 'mime_type']
+    list_filter = ['preacher__name', 'series', 'published']
     date_hierarchy = 'published'
-    search_fields = ['preacher', 'title', 'series__title']
+    search_fields = ['preacher__name', 'title', 'series__title']
+
+
+@admin.register(Preacher)
+class PreacherAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    search_fields = ['name']

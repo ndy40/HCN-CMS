@@ -15,6 +15,14 @@ def validate_sermon_notes(value):
         raise ValidationError(u'Unsupported file type')
 
 
+class Preacher(models.Model):
+    name = models.CharField(max_length=250)
+    created_at = models.DateTimeField(auto_now=True,)
+
+    def __str__(self):
+        return self.name
+
+
 class Series(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(null=True)
@@ -37,7 +45,7 @@ class Sermon(models.Model):
 
     """
     title = models.CharField(max_length=255)
-    preacher = models.CharField(max_length=225, help_text='Name of preacher')
+    preacher = models.ManyToManyField('Preacher', related_name='preacher', db_index=True)
     mime_type = models.CharField(max_length=255, db_index=True)
     url = models.URLField(
         help_text="Link to sermon resource (recording or video) if any", null=True, blank=True)
@@ -63,6 +71,10 @@ class Sermon(models.Model):
     @property
     def is_published(self) -> bool:
         return self.published is not None
+
+    @property
+    def who_is_preaching(self) -> str:
+        return [value['name'] for value in self.preacher.values('name')]
 
     def __str__(self):
         return self.title

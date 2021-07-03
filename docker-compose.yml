@@ -41,7 +41,7 @@ services:
     networks:
       - internal_db
     volumes:
-      - db_volume:/var/lib/postgresql/data
+      - hcn_db_volume:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${MYSQL_DATABASE}
       POSTGRES_USER: ${MYSQL_USER}
@@ -66,4 +66,6 @@ networks:
 volumes:
   web-static:
   web-django:
-  db_volume:
+  hcn_db_volume:
+    external: true
+
