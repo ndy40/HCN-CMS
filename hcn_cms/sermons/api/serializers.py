@@ -25,6 +25,8 @@ class SeriesSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class SermonsSerializer(serializers.HyperlinkedModelSerializer):
+    preacher = serializers.StringRelatedField(many=True, read_only=True)
+
     class Meta:
         model = Sermon
         fields = '__all__'

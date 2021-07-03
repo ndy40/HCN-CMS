@@ -46,7 +46,7 @@ class Sermon(models.Model):
     """
     title = models.CharField(max_length=255)
     preacher = models.ManyToManyField('Preacher', related_name='preacher', db_index=True)
-    mime_type = models.CharField(max_length=255, db_index=True)
+    mime_type = models.CharField(max_length=255, db_index=True, null=True, blank=True)
     url = models.URLField(
         help_text="Link to sermon resource (recording or video) if any", null=True, blank=True)
     size = models.IntegerField(null=True)
