@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'tagging',
     'api.apps.ApiConfig',
     'rest_framework',
-    'django_filters'
+    'django_filters',
+    'accounts'
 ]
 
 MIDDLEWARE = [
