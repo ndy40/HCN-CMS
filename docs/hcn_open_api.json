@@ -400,6 +400,11 @@ components:
         properties:
             push_notifications:
                 type: boolean
+    DeviceConsent-write:
+        type: object
+        properties:
+            push_notifications:
+                type: boolean
     Series:
       type: object
       required:
