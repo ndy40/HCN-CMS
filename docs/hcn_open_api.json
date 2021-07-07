@@ -295,7 +295,6 @@ paths:
         operationId: postDeviceRegistration
         tags: 
             - accounts
-            - devices
         responses:
             201:
                 description: Successfully registered device
@@ -315,7 +314,6 @@ paths:
       get:
           tags:
               - accounts
-              - devices
           operationId: getDeviceConsent
           description: Get device consents
           responses:
@@ -325,6 +323,27 @@ paths:
                       application/json:
                           schema:
                               $ref: '#/components/schemas/DeviceConsent'
+      patch:
+          tags:
+              - accounts
+          operationId: patchDeviceConsent
+          description: Update device consent
+          requestBody:
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/DeviceConsent-write'
+          responses:
+              201:
+                  description: Updated device consent
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/DeviceConsent'
+              400:
+                  description: Bad requests
+              401: 
+                  description: Validation error
 
 components:
   schemas:
