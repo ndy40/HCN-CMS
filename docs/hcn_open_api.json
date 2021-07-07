@@ -122,6 +122,11 @@ paths:
       tags:
         - sermons
       parameters:
+        - name: x-hcn-deviceid
+          in: header
+          required: true
+          schema:
+              type: string
         - name: title
           in: query
           required: false
@@ -194,6 +199,12 @@ paths:
         tags: 
             - sermons
         operationId: createNewSermon
+        parameters:
+            - name: x-hcn-deviceid
+              in: header
+              required: true
+                schema:
+                    type: string
         requestBody:
             content:
                 application/json:
