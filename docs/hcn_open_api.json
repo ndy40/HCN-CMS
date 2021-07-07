@@ -341,6 +341,42 @@ components:
                 enum:
                     - ACTIVE 
                     - DISABLED
+    Device-write:
+        type: object
+        required:
+            - token
+            - phone_model
+            - manufacturer
+            - status
+        properties:
+            id: 
+                type: integer
+            token:
+                type: string
+            phone_model: 
+                type: string
+            os_name:
+                type: string
+            os_version: 
+                type: string
+            wifi:
+                type: boolean
+            bluetooth:
+                type: boolean
+            manufacturer:
+                type: string
+            screen_width:
+                type: string
+            screen_height:
+                type: string
+            created_at:
+                type: string
+                format: date-format
+            status:
+                type: string
+                enum:
+                    - ACTIVE 
+                    - DISABLED
     Series:
       type: object
       required:
