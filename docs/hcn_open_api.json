@@ -15,6 +15,11 @@ paths:
       tags:
         - series
       parameters:
+        - name: x-hcn-deviceid
+          in: header
+          required: true
+          schema:
+              type: string
         - name: title
           in: query
           required: false
@@ -66,6 +71,11 @@ paths:
       tags:
         - series
       parameters:
+        - name: x-hcn-deviceid
+          in: header
+          required: true
+          schema:
+              type: string
         - name: id
           in: path
           required: true
@@ -91,6 +101,11 @@ paths:
         - series
       operationId: bookmarkSeriesByid
       parameters:
+        - name: x-hcn-deviceid
+          in: header
+          required: true
+          schema:
+              type: string
         - name: id
           in: path
           required: true
