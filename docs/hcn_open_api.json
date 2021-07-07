@@ -291,10 +291,56 @@ paths:
   /api/accounts/devices/register:
       description: Register device on application installation
       post:
-          
-      
+        description: Register a new device
+        operationId: postDeviceRegistration
+        tags: 
+            - Accounts
+            - Devices
+        responses:
+            200:
+                description: Successfully registered device
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Device'
+        requestBody:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Device-write' 
 components:
   schemas:
+    Device:
+        type: object
+        properties:
+            id: 
+                type: integer
+            token:
+                type: string
+            phone_model: 
+                type: string
+            os_name:
+                type: string
+            os_version: 
+                type: string
+            wifi:
+                type: boolean
+            bluetooth:
+                type: boolean
+            manufacturer:
+                type: string
+            screen_width:
+                type: string
+            screen_height:
+                type: string
+            created_at:
+                type: string
+                format: date-format
+            status:
+                type: string
+                enum:
+                    - ACTIVE 
+                    - DISABLED
     Series:
       type: object
       required:
@@ -444,7 +490,6 @@ components:
             updated_at:
                 type: string
                 format: date-format
-
     Error:
       type: object
       required:
