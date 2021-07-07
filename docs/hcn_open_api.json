@@ -310,6 +310,22 @@ paths:
                 application/json:
                     schema:
                         $ref: '#/components/schemas/Device-write' 
+  /api/accounts/devices/{id}/consents:
+      description: Manage device consents
+      get:
+          tags:
+              - accounts
+              - devices
+          operationId: getDeviceConsent
+          description: Get device consents
+          responses:
+              200:
+                  description: Device consent
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/DeviceConsent'
+
 components:
   schemas:
     Device:
