@@ -303,6 +303,8 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/Device'
+            400:
+                description: Bad request
         requestBody:
             content:
                 application/json:
