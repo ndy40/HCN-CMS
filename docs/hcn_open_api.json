@@ -294,8 +294,8 @@ paths:
         description: Register a new device
         operationId: postDeviceRegistration
         tags: 
-            - Accounts
-            - Devices
+            - accounts
+            - devices
         responses:
             200:
                 description: Successfully registered device
