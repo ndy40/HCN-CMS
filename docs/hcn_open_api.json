@@ -227,6 +227,11 @@ paths:
           operationId: getSermonById
           description: Fetch sermon by id
           parameters:
+              - name: x-hcn-deviceid
+                in: header
+                required: true
+                schema:
+                    type: string
               - name: id
                 in: path
                 required: true
