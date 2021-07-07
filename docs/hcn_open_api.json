@@ -395,6 +395,11 @@ components:
                 enum:
                     - ACTIVE 
                     - DISABLED
+    DeviceConsent:
+        type: object
+        properties:
+            push_notifications:
+                type: boolean
     Series:
       type: object
       required:
