@@ -203,8 +203,8 @@ paths:
             - name: x-hcn-deviceid
               in: header
               required: true
-                schema:
-                    type: string
+              schema:
+                type: string
         requestBody:
             content:
                 application/json:
