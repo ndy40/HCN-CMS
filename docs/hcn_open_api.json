@@ -250,6 +250,11 @@ paths:
           operationId: bookmarkSermonById
           description: Add sermon to user's bookmarks
           parameters:
+              - name: x-hcn-deviceid
+                in: header
+                required: true
+                schema:
+                    type: string
               - name: id
                 in: path
                 required: true
@@ -267,6 +272,11 @@ paths:
           operationId: likeSermonById
           description: Add a like to a sermon
           parameters:
+              - name: x-hcn-deviceid
+                in: header
+                required: true
+                schema:
+                    type: string
               - name: id
                 in: path
                 required: true
@@ -278,7 +288,8 @@ paths:
           responses:
               204:
                   description: Sermon added to bookmark
-
+  /api/accounts/device/register:
+      
 components:
   schemas:
     Series:
