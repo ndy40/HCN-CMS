@@ -297,7 +297,7 @@ paths:
             - accounts
             - devices
         responses:
-            200:
+            201:
                 description: Successfully registered device
                 content:
                     application/json:
