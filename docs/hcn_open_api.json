@@ -288,7 +288,10 @@ paths:
           responses:
               204:
                   description: Sermon added to bookmark
-  /api/accounts/device/register:
+  /api/accounts/devices/register:
+      description: Register device on application installation
+      post:
+          
       
 components:
   schemas:
