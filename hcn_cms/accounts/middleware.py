@@ -1,4 +1,3 @@
-from django.http.request import HttpRequest
 from django.core.cache import cache
 from django.utils.functional import SimpleLazyObject
 from django.conf import settings
@@ -42,4 +41,3 @@ class ResolveDeviceMiddlware(object):
         response = self.get_response(request)
 
         return response
-
