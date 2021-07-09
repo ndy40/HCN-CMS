@@ -8,8 +8,7 @@ class Device(models.Model):
         ('ACTIVE', 'Active'),
         ('DISABLED', 'Disabled')
     ]
-
-    token = models.CharField(max_length=255)
+    token = models.CharField(max_length=255, unique=True)
     phone_model = models.CharField(max_length=255)
     os_name = models.CharField(max_length=255)
     os_version = models.CharField(max_length=255)
@@ -28,4 +27,4 @@ class Device(models.Model):
 
 class DeviceConsent(models.Model):
     push_notification = models.BooleanField(default=True)
-    device = models.ForeignKey('Device', on_delete=models.CASCADE)
+    device = models.OneToOneField(Device, on_delete=models.CASCADE, primary_key=True, related_name='consent')
