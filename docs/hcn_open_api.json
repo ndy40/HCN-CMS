@@ -5,7 +5,7 @@ info:
 servers:
   - url: 'http://localhost:8000'
 paths:
-  /api/series:
+  /api/sermons/series:
     description: >-
       A series is a way to group and categorise sermons together and usually
       have a start and end date that spans weeks or months.
@@ -63,7 +63,7 @@ paths:
                 type: array
                 items: null
                 $ref: '#/components/schemas/Series'
-  /api/series/{id}:
+  /api/sermons/series/{id}:
     description: Each series has a unique Id that can be requested for
     get:
       description: Fetch series by id
@@ -91,7 +91,7 @@ paths:
                 $ref: '#/component/schemas/Series'
         '404':
           description: Resource not found
-  /api/series/{id}/bookmark:
+  /api/sermons/series/{id}/bookmark:
     description: >-
       Users will like to bookmark a series and as a result bookmark all the
       sermons under the series.
