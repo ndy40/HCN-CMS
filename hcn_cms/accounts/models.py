@@ -8,6 +8,9 @@ class User(AbstractUser):
     class Meta:
         unique_together = ['email', 'is_staff']
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} ({self.get_username()}"
+
 
 class Device(models.Model):
     DEVICE_STATUS = [
@@ -43,3 +46,4 @@ class Profile(models.Model):
     year_joined = models.DateField(null=True, blank=True)
     reset_token = models.CharField(max_length=255, null=True, blank=True)
     rest_token_expires = models.DateTimeField(null=True, blank=True)
+
