@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import datetime
 import os
 from pathlib import Path
 
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'rest_framework',
     'django_filters',
-    'accounts'
+    'accounts',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'accounts.middleware.ResolveDeviceMiddlware'
+    'accounts.middleware.ResolveDeviceMiddlware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -147,9 +149,12 @@ STATIC_ROOT = '/app/hcn_cms/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    # ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'accounts.api.permissions.HasDeviceHeader',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'URL_FIELD_NAME': '@id'
@@ -173,9 +178,27 @@ LOGGING = {
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
             'propagate': False,
         },
+        # 'django.db.backends': {
+        #     'level': 'DEBUG',
+        #     'handlers': ['console'],
+        # }
     },
 }
 
 HCN_SETTINGS = {
-    "DEVICE_HEADER": "x-hcn-deviceid",
+    "DEVICE_HEADER": "x-device-id",
+}
+
+DEVICE_HEADER_MIDDLEWARE = {
+    'URL_PREFIX': 'api',
+    'EXCLUDE_ROUTES': [
+        'devices/register'
+    ]
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=4),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'UPDATE_LAST_LOGIN': True,
+    'USER_AUTHENTICATION_RULE': lambda x: x.is_active is True
 }

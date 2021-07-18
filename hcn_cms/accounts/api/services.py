@@ -1,6 +1,11 @@
 from typing import Dict
 
 from accounts.models import Device, DeviceConsent, User
+from rest_framework.exceptions import ValidationError
+
+
+class DeviceInUseException(ValidationError):
+    pass
 
 
 def create_device(*, data: Dict):
@@ -33,3 +38,5 @@ def attach_device_to_user(user_id: int, device: Device):
     user = User.objects.get(pk=user_id)
     user.devices.add(device)
     user.save()
+
+
