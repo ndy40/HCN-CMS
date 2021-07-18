@@ -67,4 +67,6 @@ volumes:
   web-static:
   web-django:
   hcn_db_volume:
+    external: true
+
 

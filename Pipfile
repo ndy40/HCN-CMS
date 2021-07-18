@@ -14,6 +14,7 @@ django-admin-thumbnails="~=0.2.6"
 djangorestframework="~=3.12.4"
 django-filter="~=2.4.0"
 django-guardian="~=2.4.0"
+djangorestframework-simplejwt="~=4.7.2"
 
 
 [dev-packages]

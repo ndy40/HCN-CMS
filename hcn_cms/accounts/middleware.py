@@ -1,6 +1,9 @@
+import re
+
 from django.core.cache import cache
 from django.utils.functional import SimpleLazyObject
 from django.conf import settings
+from django.http.response import HttpResponseForbidden
 
 from .selectors import get_device_by_id
 
@@ -31,13 +34,11 @@ class ResolveDeviceMiddlware(object):
         self.get_response = get_response
 
     def __call__(self, request):
-
-        if 'x-hcn-deviceid' in request.headers:
-            device_id = request.headers.get('x-hcn-deviceid')
+        device_header = settings.HCN_SETTINGS['DEVICE_HEADER']
+        if device_header in request.headers:
+            device_id = request.headers.get(device_header)
 
             if device_id:
                 request.device = SimpleLazyObject(lambda: get_device(request))
 
-        response = self.get_response(request)
-
-        return response
+        return self.get_response(request)
