@@ -1,12 +1,13 @@
-from accounts.models import Device, User
+from django.db import transaction
 from rest_framework import status
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, RetrieveUpdateAPIView
-from rest_framework.response import Response
-from .permissions import HasDeviceHeader
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 
+from .permissions import HasDeviceHeader
 from .serializers import DeviceSerializer, RegisterUserSerializer, UserSerializer
 from .services import attach_device_to_user
+from accounts.models import Device, User
 
 
 class DeviceRegisterView(CreateAPIView):
@@ -16,12 +17,10 @@ class DeviceRegisterView(CreateAPIView):
 
 
 class DevicesListView(ListAPIView):
-    queryset = Device.objects.all()
     serializer_class = DeviceSerializer
 
-    # def get_queryset(self):
-    #  TODO: when we add user support, we should filter devices.user == request.user.id to narrow search down.
-    #     devices = Device.objects.filter()
+    def get_queryset(self):
+        return Device.objects.filter(user=self.request.user)
 
 
 class DeviceDetailView(RetrieveUpdateAPIView):
@@ -34,13 +33,13 @@ class RegisterUserView(CreateAPIView):
     serializer_class = RegisterUserSerializer
     permission_classes = [AllowAny | HasDeviceHeader]
 
+    @transaction.atomic
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
         if request.device:
-            print('device attached')
             attach_device_to_user(user_id=serializer.data.get('id'), device=request.device)
             serializer = UserSerializer(instance=User.objects.get(pk=serializer.data.get('id')),
                                         context={'request': request})

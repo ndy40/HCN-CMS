@@ -7,9 +7,9 @@ urlpatterns = [
     # Sermons
     re_path('sermons/(?P<pk>\\d+)/add_lik', add_likes_to_sermons),
     path('sermons/<int:pk>/', SermonDetail.as_view(), name='sermon-detail'),
-    path('', SermonList.as_view()),
+    path('', SermonList.as_view(), name='sermon-lists'),
 
     # Series API
     path('series/<int:pk>/', SeriesDetail.as_view(), name='series-detail'),
-    path('series/', SeriesLists.as_view()),
+    path('series/', SeriesLists.as_view(), name='series-list'),
 ]

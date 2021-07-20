@@ -1,7 +1,8 @@
 from typing import Dict
 
-from accounts.models import Device, DeviceConsent, User
 from rest_framework.exceptions import ValidationError
+
+from accounts.models import Device, User
 
 
 class DeviceInUseException(ValidationError):
@@ -28,7 +29,7 @@ def _does_email_exists(email: str):
 
 
 def create_user(*, data: Dict):
-    if _does_email_exists(data['email']) :
+    if _does_email_exists(data['email']):
         raise ValueError('User email already exists')
     user = User.objects.create(**data)
     return user
@@ -38,5 +39,3 @@ def attach_device_to_user(user_id: int, device: Device):
     user = User.objects.get(pk=user_id)
     user.devices.add(device)
     user.save()
-
-

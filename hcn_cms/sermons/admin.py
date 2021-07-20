@@ -1,8 +1,7 @@
 from admin_thumbnails import thumbnail
 from django.contrib import admin
 
-
-from .models import Series, Sermon, Preacher
+from .models import Preacher, Series, Sermon
 
 
 # Register your models here.

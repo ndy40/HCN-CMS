@@ -16,9 +16,9 @@ COPY Pipfile* /app/
 COPY docker/docker-entrypoint.sh /usr/bin/docker-entrypoint
 
 RUN chmod a+x /usr/local/bin/docker-entrypoint; \
-    cd /app/ && pipenv install --system --skip-lock
+    cd /app/ && pipenv install -d --system --skip-lock
 
-COPY . .
+COPY .. .
 
 EXPOSE 8000
 

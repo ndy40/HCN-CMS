@@ -1,13 +1,11 @@
 from datetime import datetime, timezone
 
-import rest_framework.exceptions
 from django.contrib.auth.hashers import make_password
-from rest_framework.exceptions import ValidationError
-from django.http import HttpResponse
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
-from accounts.models import Device, DeviceConsent, User
 from .services import create_device, create_user
+from accounts.models import Device, DeviceConsent, User
 
 
 class DeviceConsentSerializer(serializers.ModelSerializer):
@@ -28,12 +26,6 @@ class DeviceSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         return create_device(data=validated_data)
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        exclude = ['password']
 
 
 class RegisterUserSerializer(serializers.Serializer):
