@@ -1,6 +1,7 @@
-from rest_framework.permissions import BasePermission
-from django.conf import settings
 import re
+
+from django.conf import settings
+from rest_framework.permissions import BasePermission
 
 
 class HasDeviceHeader(BasePermission):
@@ -12,12 +13,12 @@ class HasDeviceHeader(BasePermission):
         is_api_route = re.match(f"^/{api_prefixes}", request.path)
 
         if is_api_route and re.match(f"^((?!({excluded})).)*$", request.path) \
-               and device_header in request.headers:
+           and device_header in request.headers:
             if request.user:
                 try:
                     next(filter(lambda device: device.get('id') == request.device.id, request.user.devices.values()))
                     return True
-                except StopIteration as e:
+                except StopIteration:
                     pass
             else:
                 print('no user')

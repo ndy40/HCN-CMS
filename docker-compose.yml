@@ -3,7 +3,8 @@ version: "3.8"
 services:
   web:
     restart: always
-    build: .
+    build:
+      context: ./hcn_cms
     volumes:
       - ./hcn_cms:/app/hcn_cms
       - web-static:/app/hcn_cms/static
@@ -23,7 +24,7 @@ services:
 
   nginx:
     restart: always
-    build: ./docker/nginx
+    build: hcn_cms/docker/nginx
     ports:
       - "80:80"
     volumes:

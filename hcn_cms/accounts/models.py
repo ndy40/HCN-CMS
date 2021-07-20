@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 # Create your models here.
 
@@ -46,4 +46,3 @@ class Profile(models.Model):
     year_joined = models.DateField(null=True, blank=True)
     reset_token = models.CharField(max_length=255, null=True, blank=True)
     rest_token_expires = models.DateTimeField(null=True, blank=True)
-

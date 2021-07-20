@@ -1,9 +1,6 @@
-import re
-
+from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import SimpleLazyObject
-from django.conf import settings
-from django.http.response import HttpResponseForbidden
 
 from .selectors import get_device_by_id
 
