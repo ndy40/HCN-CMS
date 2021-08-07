@@ -39,6 +39,7 @@ jobs:
           pipenv install --system --deploy -d --three
 
       # Runs a set of commands using the runners shell
-      - name: Run flake8 checks
+      - name: Run tox
         run: |
-          pipenv run flake8 --config .flake8
+          tox
+
