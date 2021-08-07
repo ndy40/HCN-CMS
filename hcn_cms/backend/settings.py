@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import datetime
 import os
 from pathlib import Path
-import sys
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
