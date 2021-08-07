@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import datetime
 import os
+import sys
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,16 +83,23 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['PG_DATABASE'],
-        'USER': os.environ['PG_USER'],
-        'PASSWORD': os.environ['PG_PASSWORD'],
-        'HOST': os.environ['PG_HOST'],
-        'PORT': '5432',
+if sys.argv[1] == 'test':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ['PG_DATABASE'],
+            'USER': os.environ['PG_USER'],
+            'PASSWORD': os.environ['PG_PASSWORD'],
+            'HOST': os.environ['PG_HOST'],
+            'PORT': '5432',
+        }
 }
 
 CACHES = {
