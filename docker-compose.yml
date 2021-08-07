@@ -44,9 +44,9 @@ services:
     volumes:
       - hcn_db_volume:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: ${MYSQL_DATABASE}
-      POSTGRES_USER: ${MYSQL_USER}
-      POSTGRES_PASSWORD: ${MYSQL_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
 
   memcache:
     image: memcached:1.6.9-alpine
