@@ -100,7 +100,7 @@ else:
             'HOST': os.environ['PG_HOST'],
             'PORT': '5432',
         }
-}
+    }
 
 CACHES = {
     'default': {
