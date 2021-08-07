@@ -52,7 +52,7 @@ services:
     image: memcached:1.6.9-alpine
     restart: always
     ports:
-      - '11211:11211'
+      - '11211'
     entrypoint:
       - memcached
       - -m 64
