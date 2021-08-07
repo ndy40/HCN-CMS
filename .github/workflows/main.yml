@@ -36,7 +36,9 @@ jobs:
         env:
           cache-name: cache-python-packages
         with:
-          path: /opt/hostedtoolcache/Python/3.9.6/x64/lib/python3.9/site-packages
+          path: |
+            /opt/hostedtoolcache/Python/3.9.6/x64/lib/python3.9/site-packages
+            /home/runner/work/HCN-CMS/HCN-CMS/hcn_cms/.tox/py39
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
