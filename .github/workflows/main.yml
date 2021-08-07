@@ -41,4 +41,4 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run flake8 checks
         run: |
-          pipenv run flake8 .
+          pipenv run flake8 --config .flake8
