@@ -38,7 +38,7 @@ jobs:
         with:
           path: |
             /opt/hostedtoolcache/Python/3.9.6/x64/lib/python3.9
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_REF }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
