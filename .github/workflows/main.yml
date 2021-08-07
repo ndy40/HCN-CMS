@@ -37,8 +37,8 @@ jobs:
           cache-name: cache-python-packages
         with:
           path: |
-            /opt/hostedtoolcache/Python/3.9.6/x64/lib/python3.9/site-packages
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**Pipfile.lock') }}
+            /opt/hostedtoolcache/Python/3.9.6/x64/lib/python3.9
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
