@@ -22,20 +22,19 @@ jobs:
         python-version: ['3.9']
 
     services:
-      db:
-        image: postgres:13.3
-        ports:
-          - "5432:5432"
-        env:
-          POSTGRES_DB: ${{ secrets.PG_DATABASE }}
-          POSTGRES_USER: ${{ secrets.PG_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.PG_PASSWORD }}
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
+#      db:
+#        image: postgres:13.3
+#        ports:
+#          - "5432:5432"
+#        env:
+#          POSTGRES_DB: ${{ secrets.PG_DATABASE }}
+#          POSTGRES_USER: ${{ secrets.PG_USER }}
+#          POSTGRES_PASSWORD: ${{ secrets.PG_PASSWORD }}
+#        options: >-
+#          --health-cmd pg_isready
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
       memcache:
         image: memcached:latest
         ports:
