@@ -3,12 +3,7 @@ info:
   version: 0.1.0
   title: HCN-CMS-API
 servers:
-  - url: 'http://localhost:8000'
-security:
-  - type: http
-    scheme: bearer
-    bearerFormat: jwt
-   
+  - url: 'http://localhost:8000'  
 paths:
   /api/accounts/devices/register:
       description: Register device on application installation
@@ -36,6 +31,11 @@ paths:
       get:
           tags:
               - accounts
+          parameters:
+              - name: x-deviceid
+                required: true
+                type: string
+                in: header
           operationId: getDeviceConsent
           description: Get device consents
           responses:
@@ -396,6 +396,12 @@ paths:
                   description: Sermon added to bookmark
   
 components:
+  securitySchemes:
+      - type: http
+        description: JWT token
+        bearerFormat: bearer
+
+        
   schemas:
     AccessToken:
         type: object
