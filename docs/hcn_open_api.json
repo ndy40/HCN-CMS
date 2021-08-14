@@ -184,6 +184,9 @@ paths:
   /api/sermons/series/{id}:
     description: Each series has a unique Id that can be requested for
     get:
+      security:
+        - JWT: ['jwt-token']
+        - DeviceId: ["device123"]
       description: Fetch series by id
       operationId: getSeriesByid
       tags:
