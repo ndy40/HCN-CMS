@@ -418,9 +418,10 @@ paths:
           tags:
               - sermons
           responses:
-              204:
-                  description: Sermon added to bookmark
-  
+            204:
+                description: Sermon added to bookmark
+            404:
+                description: Resource not found
 components:
   securitySchemes:
       JWT:
