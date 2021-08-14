@@ -9,6 +9,7 @@ paths:
       description: Register device on application installation
       post:
         description: Register a new device
+        security: false
         operationId: postDeviceRegistration
         tags: 
             - accounts
@@ -29,6 +30,9 @@ paths:
   /api/accounts/devices/{id}/consents:
       description: Manage device consents
       get:
+          security:
+              - JWT: ['jwt-token']
+              - DeviceId: ["device123"]
           tags:
               - accounts
           parameters:
@@ -397,13 +401,15 @@ paths:
   
 components:
   securitySchemes:
-      - type: http
-        description: JWT token
-        bearerFormat: bearer
-      - type: apiKey
-        name: x-deviceid
-        in: header
-        description: Device Header
+      JWT:
+        - type: http
+          description: JWT token
+          bearerFormat: bearer
+      DeviceId:
+        - type: apiKey
+          name: x-deviceid
+          in: header
+          description: Device Header
   schemas:
     AccessToken:
         type: object
