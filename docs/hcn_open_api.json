@@ -400,8 +400,10 @@ components:
       - type: http
         description: JWT token
         bearerFormat: bearer
-
-        
+      - type: apiKey
+        name: x-deviceid
+        in: header
+        description: Device Header
   schemas:
     AccessToken:
         type: object
