@@ -5,8 +5,8 @@ from .views import SeriesDetail, SeriesLists, SermonDetail, SermonList, add_like
 
 urlpatterns = [
     # Sermons
-    re_path('sermons/(?P<pk>\\d+)/add_lik', add_likes_to_sermons),
-    path('sermons/<int:pk>/', SermonDetail.as_view(), name='sermon-detail'),
+    re_path('(?P<pk>\\d+)/add_like', add_likes_to_sermons),
+    path('<int:pk>/', SermonDetail.as_view(), name='sermon-detail'),
     path('', SermonList.as_view(), name='sermon-lists'),
 
     # Series API

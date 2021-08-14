@@ -1,8 +1,11 @@
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import CharFilter, DjangoFilterBackend, FilterSet
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from .serializers import SeriesSerializer, SermonsSerializer
@@ -58,6 +61,7 @@ class SermonList(ListAPIView):
     filterset_class = SermonsFilter
     filter_backends = (DjangoFilterBackend, OrderingFilter,)
     ordering_fields = ('published', 'created_at', 'updated_at', 'preacher', 'title', 'series')
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class SermonDetail(RetrieveAPIView):
@@ -67,8 +71,14 @@ class SermonDetail(RetrieveAPIView):
 
 @api_view(['PATCH'])
 def add_likes_to_sermons(request, pk):
-    # todo:
-    #  1. Validate the user and then increment the likes
-    #  2. Make sure a user can only like a sermon once
-    increment_like_on_sermons(sermon_id=pk)
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    if request.user:
+        sermon = get_object_or_404(Sermon, pk=pk)
+        if sermon.is_liked_by_user(user_id=request.user.id):
+            response = Response(status=status.HTTP_304_NOT_MODIFIED)
+        else:
+            increment_like_on_sermons(sermon_id=pk, user_id=request.user.id)
+            response = Response(status=status.HTTP_204_NO_CONTENT)
+
+        return response
+
+    raise PermissionDenied(detail='user must be authenticated for this operation')

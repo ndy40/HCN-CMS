@@ -201,5 +201,5 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=4),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
     'UPDATE_LAST_LOGIN': True,
-    'USER_AUTHENTICATION_RULE': lambda x: x.is_active is True
+    'USER_AUTHENTICATION_RULE': lambda x: getattr(x, 'is_active', None) is True
 }

@@ -16,7 +16,7 @@ class SeriesAdmin(admin.ModelAdmin):
 
 @admin.register(Sermon)
 class SermonAdmin(admin.ModelAdmin):
-    exclude = ['likes', 'mime_type', 'size']
+    exclude = ['likes', 'mime_type', 'size', 'meta']
     list_display = ['title', 'who_is_preaching', 'published', 'series', 'url', 'mime_type']
     list_filter = ['preacher__name', 'series', 'published']
     date_hierarchy = 'published'
