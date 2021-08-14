@@ -76,6 +76,7 @@ paths:
   /api/accounts/token:
     description: Obtain user token for api request with username and password
     post:
+      security: false
       description: Post username and password to obtain token
       operationId: getAuthToken
       tags:
