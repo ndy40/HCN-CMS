@@ -217,6 +217,9 @@ paths:
       Users will like to bookmark a series and as a result bookmark all the
       sermons under the series.
     patch:
+      security:
+        - JWT: ['jwt-token']
+        - DeviceId: ["device123"]
       description: A user can choose to bookmark a preaching series
       tags:
         - series
