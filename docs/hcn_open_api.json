@@ -84,12 +84,28 @@ paths:
             content:
                 application/json:
                     schema:
+                        $ref: '#/components/schemas/AccessToken'
+  /api/accounts/token/refresh:
+      description: Refresh token
+      post:
+        description: Refresh token
+        operationId: refreshToken
+        requestBody:
+            content:
+                application/json:
+                    schema:
                         type: object
                         properties:
-                            access:
-                                type: string
                             refresh:
                                 type: string
+                                example: refresh123
+        responses:
+            200:
+                description: Access token
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AccessToken'                   
   /api/sermons/series:
     description: >-
       A series is a way to group and categorise sermons together and usually
@@ -376,6 +392,15 @@ paths:
   
 components:
   schemas:
+    AccessToken:
+        type: object
+        properties:
+            access: 
+                type: string
+                example: token123
+            refresh: 
+                type: string
+                example: refresh123
     Device:
         type: object
         properties:
