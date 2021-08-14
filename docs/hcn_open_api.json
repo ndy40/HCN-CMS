@@ -12,8 +12,7 @@ paths:
       description: Register device on application installation
       post:
         description: Register a new device
-        security: 
-            - []
+        security: {}
         operationId: postDeviceRegistration
         tags: 
             - accounts
