@@ -40,8 +40,7 @@ paths:
               - accounts
           parameters:
               - name: x-deviceid
-                required: true
-                type: string
+                required: true                
                 in: header
           operationId: getDeviceConsent
           description: Get device consents
