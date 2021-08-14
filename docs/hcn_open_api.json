@@ -430,7 +430,7 @@ components:
   securitySchemes:
       JWT:
         type: http
-        scheme: jwt
+        scheme: bearer
         description: JWT token
         bearerFormat: bearer
       DeviceId:
