@@ -50,6 +50,9 @@ paths:
                           schema:
                               $ref: '#/components/schemas/DeviceConsent'
       patch:
+          security:
+              - JWT: ['jwt-token']
+              - DeviceId: ["device123"]
           tags:
               - accounts
           operationId: patchDeviceConsent
