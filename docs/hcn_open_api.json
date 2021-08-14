@@ -6,7 +6,7 @@ security:
     - JWT: ['jwt123']
     - DeviceId: ['device123']
 servers:
-  - url: 'https://localhost:8000'  
+  - url: 'http://localhost:8000'  
 paths:
   /api/accounts/devices/register:
       description: Register device on application installation
