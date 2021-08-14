@@ -4,6 +4,11 @@ info:
   title: HCN-CMS-API
 servers:
   - url: 'http://localhost:8000'
+security:
+  - type: http
+    scheme: bearer
+    bearerFormat: jwt
+   
 paths:
   /api/accounts/devices/register:
       description: Register device on application installation
