@@ -405,9 +405,6 @@ paths:
   /api/sermons/{id}/add_like:
       description: Like a sermon
       patch:
-          security:
-            - JWT: ['jwt-token']
-            - DeviceId: ["device123"]
           operationId: likeSermonById
           description: Add a like to a sermon
           parameters:
