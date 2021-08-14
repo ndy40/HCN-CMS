@@ -99,7 +99,7 @@ paths:
   /api/accounts/token/refresh:
       description: Refresh token
       post:
-        security: false
+        security: []
         description: Refresh token
         operationId: refreshToken
         requestBody:
@@ -429,14 +429,14 @@ paths:
 components:
   securitySchemes:
       JWT:
-        - type: http
-          description: JWT token
-          bearerFormat: bearer
+        type: http
+        description: JWT token
+        bearerFormat: bearer
       DeviceId:
-        - type: apiKey
-          name: x-deviceid
-          in: header
-          description: Device Header
+        type: apiKey
+        name: x-deviceid
+        in: header
+        description: Device Header
   schemas:
     AccessToken:
         type: object
