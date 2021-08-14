@@ -38,10 +38,6 @@ paths:
               - DeviceId: ["device123"]
           tags:
               - accounts
-          parameters:
-              - name: x-deviceid
-                required: true                
-                in: header
           operationId: getDeviceConsent
           description: Get device consents
           responses:
