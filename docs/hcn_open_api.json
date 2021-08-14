@@ -74,7 +74,7 @@ paths:
   /api/accounts/token:
     description: Obtain user token for api request with username and password
     post:
-      security: false
+      security: []
       description: Post username and password to obtain token
       operationId: getAuthToken
       tags:
@@ -99,7 +99,7 @@ paths:
   /api/accounts/token/refresh:
       description: Refresh token
       post:
-        security: false
+        security: []
         description: Refresh token
         operationId: refreshToken
         requestBody:
