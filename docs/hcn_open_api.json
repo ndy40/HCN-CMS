@@ -101,6 +101,7 @@ paths:
   /api/accounts/token/refresh:
       description: Refresh token
       post:
+        security: false
         description: Refresh token
         operationId: refreshToken
         requestBody:
@@ -124,6 +125,9 @@ paths:
       A series is a way to group and categorise sermons together and usually
       have a start and end date that spans weeks or months.
     get:
+      security:
+        - JWT: ['jwt-token']
+        - DeviceId: ["device123"]
       description: Fetch all series
       operationId: getAllSeries
       tags:
