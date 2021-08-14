@@ -409,11 +409,6 @@ paths:
           operationId: likeSermonById
           description: Add a like to a sermon
           parameters:
-              - name: x-hcn-deviceid
-                in: header
-                required: true
-                schema:
-                    type: string
               - name: id
                 in: path
                 required: true
