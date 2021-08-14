@@ -100,7 +100,8 @@ paths:
   /api/accounts/token/refresh:
       description: Refresh token
       post:
-        security: []
+        security: 
+            - []
         description: Refresh token
         operationId: refreshToken
         requestBody:
