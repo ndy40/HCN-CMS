@@ -5,6 +5,92 @@ info:
 servers:
   - url: 'http://localhost:8000'
 paths:
+  /api/accounts/devices/register:
+      description: Register device on application installation
+      post:
+        description: Register a new device
+        operationId: postDeviceRegistration
+        tags: 
+            - accounts
+        responses:
+            201:
+                description: Successfully registered device
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Device'
+            400:
+                description: Bad request
+        requestBody:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Device-write' 
+  /api/accounts/devices/{id}/consents:
+      description: Manage device consents
+      get:
+          tags:
+              - accounts
+          operationId: getDeviceConsent
+          description: Get device consents
+          responses:
+              200:
+                  description: Device consent
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/DeviceConsent'
+      patch:
+          tags:
+              - accounts
+          operationId: patchDeviceConsent
+          description: Update device consent
+          requestBody:
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/DeviceConsent-write'
+          responses:
+              201:
+                  description: Updated device consent
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/DeviceConsent'
+              400:
+                  description: Bad requests
+              401: 
+                  description: Validation error
+  /api/accounts/token:
+    description: Obtain user token for api request with username and password
+    post:
+      description: Post username and password to obtain token
+      operationId: getAuthToken
+      tags:
+        - accounts
+      requestBody:
+          content:
+              application/json:
+                schema:
+                    type: object
+                    properties:
+                        username: 
+                            type: string
+                        password:
+                            type: string
+      responses:
+        200:
+            description: Access token
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            access:
+                                type: string
+                            refresh:
+                                type: string
+        
   /api/sermons/series:
     description: >-
       A series is a way to group and categorise sermons together and usually
@@ -288,63 +374,7 @@ paths:
           responses:
               204:
                   description: Sermon added to bookmark
-  /api/accounts/devices/register:
-      description: Register device on application installation
-      post:
-        description: Register a new device
-        operationId: postDeviceRegistration
-        tags: 
-            - accounts
-        responses:
-            201:
-                description: Successfully registered device
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/Device'
-            400:
-                description: Bad request
-        requestBody:
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/Device-write' 
-  /api/accounts/devices/{id}/consents:
-      description: Manage device consents
-      get:
-          tags:
-              - accounts
-          operationId: getDeviceConsent
-          description: Get device consents
-          responses:
-              200:
-                  description: Device consent
-                  content:
-                      application/json:
-                          schema:
-                              $ref: '#/components/schemas/DeviceConsent'
-      patch:
-          tags:
-              - accounts
-          operationId: patchDeviceConsent
-          description: Update device consent
-          requestBody:
-              content:
-                  application/json:
-                      schema:
-                          $ref: '#/components/schemas/DeviceConsent-write'
-          responses:
-              201:
-                  description: Updated device consent
-                  content:
-                      application/json:
-                          schema:
-                              $ref: '#/components/schemas/DeviceConsent'
-              400:
-                  description: Bad requests
-              401: 
-                  description: Validation error
-
+  
 components:
   schemas:
     Device:
