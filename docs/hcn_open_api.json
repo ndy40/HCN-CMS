@@ -432,7 +432,7 @@ components:
         type: http
         scheme: bearer
         description: JWT token
-        bearerFormat: bearer
+        bearerFormat: jwt
       DeviceId:
         type: apiKey
         name: x-deviceid
