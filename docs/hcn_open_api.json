@@ -90,7 +90,6 @@ paths:
                                 type: string
                             refresh:
                                 type: string
-        
   /api/sermons/series:
     description: >-
       A series is a way to group and categorise sermons together and usually
