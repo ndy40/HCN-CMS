@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from tagging.fields import TagField
+from bookmarking.handlers import library
 
 
 # Create your models here.
@@ -93,3 +94,6 @@ class Sermon(models.Model):
 
     def __str__(self):
         return self.title
+
+
+library.register([Sermon, Series])
