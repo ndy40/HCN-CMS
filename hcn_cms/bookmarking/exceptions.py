@@ -5,13 +5,13 @@ class BookmarksError(Exception):
     pass
 
 
-class AlreadyExists(BookmarksError):
+class AlreadyExist(BookmarksError):
     """
     Bookmark you trying to create already exists.
     """
 
 
-class DoesNotExists(BookmarksError):
+class DoesNotExist(BookmarksError):
     """
     Bookmark you are trying to remove does not exists
     """

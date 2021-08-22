@@ -3,7 +3,7 @@ from importlib import import_module
 from django.db import transaction
 
 from .models import Bookmark
-from .exceptions import DoesNotExists
+from .exceptions import DoesNotExist
 from .utils import get_content_type_for_model
 
 
@@ -128,12 +128,13 @@ class ModelBackend(BaseBackend):
             query_set = self.get_model().objects.filter_with_content(**kwargs)
         else:
             query_set = self.get_model().objects.filter(**kwargs)
+
         return query_set.order_by(order)
 
     def get(self, user, instance, key):
         bookmark = self.get_model().objects.get_for(content_object=instance, key=key, user=user)
         if bookmark is None:
-            raise DoesNotExists
+            raise DoesNotExist
 
         return bookmark
 

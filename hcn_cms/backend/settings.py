@@ -187,6 +187,9 @@ LOGGING = {
     },
 }
 
+DEBUG_PROPAGATE_EXCEPTIONS = True
+
+
 HCN_SETTINGS = {
     "DEVICE_HEADER": "x-device-id",
 }
