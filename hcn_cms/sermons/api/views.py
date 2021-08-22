@@ -1,3 +1,5 @@
+from importlib import import_module
+
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import CharFilter, DjangoFilterBackend, FilterSet
 from rest_framework import status
@@ -9,11 +11,10 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 
-from bookmarking.handlers import library
-from bookmarking.exceptions import AlreadyExist, DoesNotExist
-
 from .serializers import SeriesSerializer, SermonsSerializer
-from .services import increment_like_on_sermons, decrement_like_on_sermon
+from .services import decrement_like_on_model, increment_like_on_model
+from bookmarking.exceptions import AlreadyExist
+from bookmarking.handlers import library
 from sermons.models import Series, Sermon
 
 
@@ -76,30 +77,33 @@ class SermonDetail(RetrieveAPIView):
 
 
 @api_view(['PATCH'])
-def add_likes_to_sermons(request, pk):
+def update_likes_on_resource(request, pk, action, model: str):
+    """
+    Update likes on models.
+
+    :param request:
+    :param pk:
+    :param action:
+    :param model:
+    :return:
+    """
     if request.user:
         try:
-            sermon = get_object_or_404(Sermon, pk=pk)
-            increment_like_on_sermons(sermon=sermon, user=request.user)
+            module = import_module('sermons.models')
+            klass = getattr(module, model.capitalize())
+            instance = get_object_or_404(klass, pk=pk)
+
+            if action == 'add_like':
+                increment_like_on_model(instance=instance, user=request.user)
+            elif action == 'remove_like':
+                decrement_like_on_model(instance=instance, user=request.user)
             response = Response(status=status.HTTP_204_NO_CONTENT)
         except AlreadyExist:
-            response = Response(status=status.HTTP_204_NO_CONTENT)
-        finally:
-            return response
+            message = f'{model.capitalize()} is already bookmarked'
+            response = Response(status=status.HTTP_400_BAD_REQUEST, data=message)
+        except Exception as e:
+            response = Response(status=status.HTTP_400_BAD_REQUEST, data=str(e))
 
-    raise PermissionDenied(detail='user must be authenticated for this operation')
-
-
-@api_view(['PATCH'])
-def remove_like_from_sermon(request, pk):
-    if request.user:
-        try:
-            sermon = get_object_or_404(Sermon, pk=pk)
-            decrement_like_on_sermon(sermon=sermon, user=request.user)
-            response = Response(status=status.HTTP_204_NO_CONTENT)
-        except DoesNotExist:
-            response = Response(status=status.HTTP_400_BAD_REQUEST, data="Bookmark not found")
-        finally:
-            return response
+        return response
 
     raise PermissionDenied(detail='user must be authenticated for this operation')

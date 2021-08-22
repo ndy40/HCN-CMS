@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.contenttypes.models import ContentType
-from .utils import get_content_type_for_model
+
 from .exceptions import AlreadyExist, DoesNotExist
+from .utils import get_content_type_for_model
 
 
 class BookmarkManager(models.Manager):

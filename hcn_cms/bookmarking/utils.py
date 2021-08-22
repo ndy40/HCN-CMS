@@ -1,5 +1,6 @@
-from django.contrib.contenttypes.models import ContentType
 from functools import cache
+
+from django.contrib.contenttypes.models import ContentType
 
 
 @cache
