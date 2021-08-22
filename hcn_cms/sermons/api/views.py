@@ -8,12 +8,18 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
+
+from bookmarking.handlers import library
+from bookmarking.exceptions import AlreadyExist, DoesNotExist
+
 from .serializers import SeriesSerializer, SermonsSerializer
-from .services import increment_like_on_sermons
+from .services import increment_like_on_sermons, decrement_like_on_sermon
 from sermons.models import Series, Sermon
 
 
 # Create your views here.
+
+library.register([Sermon])
 
 
 class SeriesLists(ListAPIView):
@@ -72,13 +78,28 @@ class SermonDetail(RetrieveAPIView):
 @api_view(['PATCH'])
 def add_likes_to_sermons(request, pk):
     if request.user:
-        sermon = get_object_or_404(Sermon, pk=pk)
-        if sermon.is_liked_by_user(user_id=request.user.id):
-            response = Response(status=status.HTTP_304_NOT_MODIFIED)
-        else:
-            increment_like_on_sermons(sermon_id=pk, user_id=request.user.id)
+        try:
+            sermon = get_object_or_404(Sermon, pk=pk)
+            increment_like_on_sermons(sermon=sermon, user=request.user)
             response = Response(status=status.HTTP_204_NO_CONTENT)
+        except AlreadyExist:
+            response = Response(status=status.HTTP_204_NO_CONTENT)
+        finally:
+            return response
 
-        return response
+    raise PermissionDenied(detail='user must be authenticated for this operation')
+
+
+@api_view(['PATCH'])
+def remove_like_from_sermon(request, pk):
+    if request.user:
+        try:
+            sermon = get_object_or_404(Sermon, pk=pk)
+            decrement_like_on_sermon(sermon=sermon, user=request.user)
+            response = Response(status=status.HTTP_204_NO_CONTENT)
+        except DoesNotExist:
+            response = Response(status=status.HTTP_400_BAD_REQUEST, data="Bookmark not found")
+        finally:
+            return response
 
     raise PermissionDenied(detail='user must be authenticated for this operation')

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'accounts',
     'rest_framework_simplejwt.token_blacklist',
+    'bookmarking.apps.BookmarkingConfig'
 ]
 
 MIDDLEWARE = [
@@ -185,6 +186,9 @@ LOGGING = {
         # }
     },
 }
+
+DEBUG_PROPAGATE_EXCEPTIONS = True
+
 
 HCN_SETTINGS = {
     "DEVICE_HEADER": "x-device-id",

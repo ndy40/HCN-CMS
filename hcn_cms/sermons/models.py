@@ -2,7 +2,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from tagging.fields import TagField
 
-
 # Create your models here.
 
 
@@ -64,7 +63,6 @@ class Sermon(models.Model):
                                     blank=True, validators=[validate_sermon_notes],
                                     help_text="upload only pdf, word, txt files")
     tags = TagField(null=True, blank=True)
-    meta = models.JSONField(null=True, blank=True)
 
     class Meta:
         ordering = ['-created_at', '-published']
@@ -82,14 +80,6 @@ class Sermon(models.Model):
             return user_id in self.meta['liked_by']
 
         return False
-
-    def add_user_like(self, user_id: int):
-        if not self.meta:
-            self.meta = {
-                'liked_by': [user_id]
-            }
-        else:
-            self.meta['liked_by'].append(user_id)
 
     def __str__(self):
         return self.title
