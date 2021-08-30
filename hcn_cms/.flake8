@@ -10,4 +10,4 @@ exclude =
     .tox
 max-line-length = 120
 import-order-style = spoqa
-application-import-names = sermons,backends,accounts
+application-import-names = sermons,backends,accounts,bookmarking

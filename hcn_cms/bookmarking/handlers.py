@@ -1,12 +1,10 @@
-import json
-
-from django.db.models.signals import pre_delete
 from django.db.models.base import ModelBase
+from django.db.models.signals import pre_delete
 
-from .settings import DEFAULT_KEY
 from .backends import get_backend
-from .signals import bookmark_pre_save, bookmark_post_save
 from .exceptions import AlreadyHandled, NotHandled
+from .settings import DEFAULT_KEY
+from .signals import bookmark_post_save, bookmark_pre_save
 
 
 class Handler(object):

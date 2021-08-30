@@ -33,6 +33,7 @@ class Series(models.Model):
 
     class Meta:
         verbose_name_plural = 'Series'
+        ordering = ['-starts_at']
 
     def __str__(self):
         return self.title
@@ -59,8 +60,8 @@ class Sermon(models.Model):
         upload_to='sermons/thumbs/%Y/%m/', null=True, blank=True)
     series = models.ForeignKey(
         'Series', on_delete=models.SET_NULL, null=True, db_index=True, related_name='sermons')
-    sermon_notes = models.FileField(verbose_name='Sermon Notes', upload_to='static/sermon_notes/%Y/%m/', null=True,
-                                    blank=True, validators=[validate_sermon_notes],
+    sermon_notes = models.FileField(verbose_name='Sermon Notes', upload_to='static/sermon_notes/%Y/%m/',
+                                    null=True, blank=True, validators=[validate_sermon_notes],
                                     help_text="upload only pdf, word, txt files")
     tags = TagField(null=True, blank=True)
 

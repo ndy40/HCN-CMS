@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from accounts.api.testing_utils import pre_generate_access_token, pre_register_device, auth_login
-from .models import Series, Preacher, Sermon
+from .models import Preacher, Series, Sermon
 
 # Create your tests here.
 
@@ -65,7 +65,7 @@ class SermonsTestCase(APITestCase):
         response = self.client.get(url, format='json', HTTP_X_DEVICE_ID=self._device_token)
 
         sermon_id = response.json()['results'][0]['@id']
-        like_url = sermon_id + "add_like"
+        like_url = f'{sermon_id}add_like/'
         response = self.client.patch(like_url, format='json', HTTP_X_DEVICE_ID=self._device_token)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
@@ -76,7 +76,7 @@ class SermonsTestCase(APITestCase):
         response = self.client.get(url, format='json', HTTP_X_DEVICE_ID=self._device_token)
 
         sermon_id = response.json()['results'][0]['@id']
-        like_url = sermon_id + "add_like"
+        like_url = f'{sermon_id}add_like/'
         response = self.client.patch(like_url, format='json', HTTP_X_DEVICE_ID=self._device_token,
                                      HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -88,11 +88,11 @@ class SermonsTestCase(APITestCase):
         response = self.client.get(url, format='json', HTTP_X_DEVICE_ID=self._device_token)
 
         sermon_id = response.json()['results'][0]['@id']
-        like_url = sermon_id + "add_like"
+        like_url = sermon_id + "add_like/"
         self.client.patch(like_url, format='json', HTTP_X_DEVICE_ID=self._device_token,
                           HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
         response = self.client.patch(like_url, format='json', HTTP_X_DEVICE_ID=self._device_token,
                                      HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
-        self.assertEqual(response.status_code, status.HTTP_304_NOT_MODIFIED)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 

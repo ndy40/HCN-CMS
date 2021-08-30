@@ -1,9 +1,7 @@
-from importlib import import_module
-
 from django.db import transaction
 
-from .models import Bookmark
 from .exceptions import DoesNotExist
+from .models import Bookmark
 from .utils import get_content_type_for_model
 
 

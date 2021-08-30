@@ -29,4 +29,4 @@ class SermonsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Sermon
-        exclude = ['meta']
+        fields = '__all__'

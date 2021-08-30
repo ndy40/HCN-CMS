@@ -1,27 +1,28 @@
-from django.shortcuts import get_object_or_404
-
-from sermons.models import Sermon
 from accounts.models import User
-
-from bookmarking.handlers import library
-from bookmarking.models import Bookmark
 from bookmarking.exceptions import AlreadyExist
+from bookmarking.handlers import library
 
 
-def increment_like_on_sermons(*, sermon: Sermon, user: User):
-    existing_bookmark = library.backend.filter(instance=sermon, user=user)
+def increment_like_on_model(*, instance, user: User):
+    existing_bookmark = library.backend.filter(instance=instance, user=user)
+
+    if existing_bookmark.exists():
+        raise AlreadyExist(f'{type(instance)} {instance.id} already bookmarked')
+
+    library.backend.add(user, instance, 'like')
+    if hasattr(existing_bookmark, 'likes'):
+        instance.likes += 1
+        instance.save()
+        return
+
+
+def decrement_like_on_model(*, instance, user: User):
+    existing_bookmark = library.backend.get(instance=instance, user=user, key='like')
 
     if not existing_bookmark.exists():
-        library.backend.add(user, sermon, 'like')
-        sermon.likes += 1
-        sermon.save()
+        raise ValueError('bookmark not found')
 
-    raise AlreadyExist(f'Sermon {sermon.id} already bookmarked')
-
-
-def decrement_like_on_sermon(*, sermon: Sermon, user: User):
-    existing_bookmark = library.backend.get(instance=sermon, user=user, key='like')
     existing_bookmark.delete()
-    sermon.likes -= 1
-    sermon.save()
-
+    if hasattr(existing_bookmark, 'likes'):
+        instance.likes -= 1
+        instance.save()
