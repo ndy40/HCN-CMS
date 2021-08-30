@@ -39,9 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sermons.apps.SermonsConfig',
+    'sermons',
     'tagging',
-    'api.apps.ApiConfig',
+    'api',
     'rest_framework',
     'django_filters',
     'accounts',
@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': os.environ['PG_DATABASE'],
         'USER': os.environ['PG_USER'],
         'PASSWORD': os.environ['PG_PASSWORD'],
-        'HOST': os.environ['PG_HOST'],
+        'HOST': 'db',  # os.environ['PG_HOST'],
         'PORT': '5432',
     }
 }

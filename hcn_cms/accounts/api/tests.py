@@ -63,7 +63,6 @@ class AccountsTests(APITestCase):
         # second registration attempt
         response = self.client.post(url, data=payload, HTTP_X_DEVICE_ID=device_token)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertJSONEqual(response.content, '{"message": "User email already exists"}')
 
     @pre_generate_access_token
     @pre_register_device
