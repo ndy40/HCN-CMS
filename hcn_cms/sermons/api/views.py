@@ -3,17 +3,17 @@ from importlib import import_module
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import CharFilter, DjangoFilterBackend, FilterSet
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 
 
 from .serializers import SeriesSerializer, SermonsSerializer
-from .services import decrement_like_on_model, increment_like_on_model
-from bookmarking.exceptions import AlreadyExist
+from .services import bookmark_resource, decrement_like_on_model, increment_like_on_model
+from bookmarking.exceptions import AlreadyExist, DoesNotExist
 from bookmarking.handlers import library
 from sermons.models import Series, Sermon
 
@@ -77,6 +77,7 @@ class SermonDetail(RetrieveAPIView):
 
 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
 def update_likes_on_resource(request, pk, action, model: str):
     """
     Update likes on models.
@@ -87,23 +88,32 @@ def update_likes_on_resource(request, pk, action, model: str):
     :param model:
     :return:
     """
-    if request.user:
-        try:
-            module = import_module('sermons.models')
-            klass = getattr(module, model.capitalize())
-            instance = get_object_or_404(klass, pk=pk)
+    try:
+        module = import_module('sermons.models')
+        klass = getattr(module, model.capitalize())
+        instance = get_object_or_404(klass, pk=pk)
 
-            if action == 'add_like':
-                increment_like_on_model(instance=instance, user=request.user)
-            elif action == 'remove_like':
-                decrement_like_on_model(instance=instance, user=request.user)
-            response = Response(status=status.HTTP_204_NO_CONTENT)
-        except AlreadyExist:
-            message = f'{model.capitalize()} is already bookmarked'
-            response = Response(status=status.HTTP_400_BAD_REQUEST, data=message)
-        except Exception as e:
-            response = Response(status=status.HTTP_400_BAD_REQUEST, data=str(e))
+        if action == 'add_like':
+            increment_like_on_model(instance=instance, user=request.user)
+        elif action == 'remove_like':
+            decrement_like_on_model(instance=instance, user=request.user)
+        response = Response(status=status.HTTP_204_NO_CONTENT)
+    except AlreadyExist:
+        message = f'{model.capitalize()} #{instance.pk} is already bookmarked'
+        response = Response(status=status.HTTP_400_BAD_REQUEST, data=message)
+    except (ValueError, DoesNotExist) as e:
+        message = f'{model.capitalize()} #{instance.pk} does not exists'
+        response = Response(status=status.HTTP_400_BAD_REQUEST, data=message)
 
-        return response
+    return response
 
-    raise PermissionDenied(detail='user must be authenticated for this operation')
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def add_to_bookmark(request, pk, model):
+    module = import_module('sermons.models')
+    klass = getattr(module, model.capitalize())
+    instance = get_object_or_404(klass, pk=pk)
+    bookmark_resource(instance=instance, user=request.user)
+
+    return Response(status=status.HTTP_204_NO_CONTENT, data='resource bookmarked')
