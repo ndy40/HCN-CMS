@@ -1,11 +1,11 @@
 from django.urls import path, re_path
 
 from .views import (
-    add_to_bookmark,
     SeriesDetail,
     SeriesLists,
     SermonDetail,
     SermonList,
+    add_to_bookmark,
     update_likes_on_resource
 )
 

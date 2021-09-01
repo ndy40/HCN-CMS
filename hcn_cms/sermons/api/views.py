@@ -4,10 +4,9 @@ from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import CharFilter, DjangoFilterBackend, FilterSet
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 
@@ -41,6 +40,7 @@ class SeriesLists(ListAPIView):
     filter_backends = (DjangoFilterBackend,
                        OrderingFilter,)
     ordering_fields = ('starts_at', 'ends_at', 'title')
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class SeriesDetail(RetrieveAPIView):
@@ -101,7 +101,7 @@ def update_likes_on_resource(request, pk, action, model: str):
     except AlreadyExist:
         message = f'{model.capitalize()} #{instance.pk} is already bookmarked'
         response = Response(status=status.HTTP_400_BAD_REQUEST, data={"message": message})
-    except (ValueError, DoesNotExist) as e:
+    except (ValueError, DoesNotExist):
         message = f'{model.capitalize()} #{instance.pk} does not exists'
         response = Response(status=status.HTTP_400_BAD_REQUEST, data={"message": message})
 

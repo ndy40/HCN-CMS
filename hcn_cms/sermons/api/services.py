@@ -7,7 +7,7 @@ def increment_like_on_model(*, instance, user: User):
     existing_bookmark = library.backend.filter(instance=instance, user=user)
 
     if existing_bookmark.exists():
-        raise AlreadyExist(message=f'{type(instance)} {instance.id} already bookmarked')
+        raise AlreadyExist(f'{type(instance)} {instance.id} already bookmarked')
 
     library.backend.add(user, instance, 'like')
     if hasattr(existing_bookmark, 'likes'):
