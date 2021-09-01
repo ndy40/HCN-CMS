@@ -100,10 +100,10 @@ def update_likes_on_resource(request, pk, action, model: str):
         response = Response(status=status.HTTP_204_NO_CONTENT)
     except AlreadyExist:
         message = f'{model.capitalize()} #{instance.pk} is already bookmarked'
-        response = Response(status=status.HTTP_400_BAD_REQUEST, data=message)
+        response = Response(status=status.HTTP_400_BAD_REQUEST, data={"message": message})
     except (ValueError, DoesNotExist) as e:
         message = f'{model.capitalize()} #{instance.pk} does not exists'
-        response = Response(status=status.HTTP_400_BAD_REQUEST, data=message)
+        response = Response(status=status.HTTP_400_BAD_REQUEST, data={"message": message})
 
     return response
 
@@ -111,9 +111,11 @@ def update_likes_on_resource(request, pk, action, model: str):
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def add_to_bookmark(request, pk, model):
-    module = import_module('sermons.models')
-    klass = getattr(module, model.capitalize())
-    instance = get_object_or_404(klass, pk=pk)
-    bookmark_resource(instance=instance, user=request.user)
-
-    return Response(status=status.HTTP_204_NO_CONTENT, data='resource bookmarked')
+    try:
+        module = import_module('sermons.models')
+        klass = getattr(module, model.capitalize())
+        instance = get_object_or_404(klass, pk=pk)
+        bookmark_resource(instance=instance, user=request.user)
+        return Response(status=status.HTTP_204_NO_CONTENT, data='resource bookmarked')
+    except AlreadyExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "already bookmarked"})
