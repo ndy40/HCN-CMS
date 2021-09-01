@@ -7,7 +7,7 @@ class SeriesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Series
         fields = [
-            'id',
+            '@id',
             'title',
             'description',
             'starts_at',
