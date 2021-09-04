@@ -10,8 +10,8 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from rest_framework.response import Response
 
 
-from .serializers import SeriesSerializer, SermonsSerializer, BookmarkedResourceSerializer
-from .services import bookmark_resource, decrement_like_on_model, increment_like_on_model, get_bookmarks_for_resource
+from .serializers import BookmarkedResourceSerializer, SeriesSerializer, SermonsSerializer
+from .services import bookmark_resource, decrement_like_on_model, get_bookmarks_for_resource, increment_like_on_model
 from bookmarking.exceptions import AlreadyExist, DoesNotExist
 from bookmarking.handlers import library
 from sermons.models import Series, Sermon

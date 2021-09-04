@@ -1,10 +1,6 @@
-from importlib import import_module
-
 from accounts.models import User
 from bookmarking.exceptions import AlreadyExist, DoesNotExist
 from bookmarking.handlers import library
-
-from sermons.models import Series
 
 
 def increment_like_on_model(*, instance, user: User):
@@ -44,5 +40,3 @@ def bookmark_resource(*, instance, user: User):
 
 def get_bookmarks_for_resource(user: User, model):
     return library.backend.filter(user=user, model=model, key='bookmark')
-
-

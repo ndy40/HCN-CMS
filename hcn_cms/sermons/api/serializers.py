@@ -1,10 +1,8 @@
-from typing import OrderedDict
+from generic_relations.relations import GenericRelatedField
 from rest_framework import serializers
 
 from bookmarking.models import Bookmark
-
 from sermons.models import Series, Sermon
-from generic_relations.relations import GenericRelatedField
 
 
 class SeriesSerializer(serializers.HyperlinkedModelSerializer):

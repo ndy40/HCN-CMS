@@ -6,8 +6,8 @@ from .views import (
     SermonDetail,
     SermonList,
     add_to_bookmark,
+    list_bookmarks,
     update_likes_on_resource,
-    list_bookmarks
 )
 
 
