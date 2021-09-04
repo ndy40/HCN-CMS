@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django_filters',
     'accounts',
     'rest_framework_simplejwt.token_blacklist',
-    'bookmarking.apps.BookmarkingConfig'
+    'bookmarking.apps.BookmarkingConfig',
+    'generic_relations',
 ]
 
 MIDDLEWARE = [
