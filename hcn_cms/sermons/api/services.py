@@ -36,3 +36,7 @@ def bookmark_resource(*, instance, user: User):
             raise AlreadyExist('resource already bookmarked')
     except DoesNotExist:
         library.backend.add(user, instance, 'bookmark')
+
+
+def get_bookmarks_for_resource(user: User, model):
+    return library.backend.filter(user=user, model=model, key='bookmark')
