@@ -53,6 +53,11 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Run tox
+        env:
+          PG_HOST: 127.0.0.1
+          PG_DATABASE: ${{ secrets.PG_DATABASE }}
+          PG_USER: ${{ secrets.PG_USER }}
+          PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
         run: |
           cd hcn_cms
           tox
