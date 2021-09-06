@@ -154,4 +154,3 @@ def already_bookmarked(request, model, pk):
         return Response(status=status.HTTP_200_OK, data={'message': 'Already bookmarked'})
 
     return Response(status=status.HTTP_404_NOT_FOUND, data={'message': 'Not bookmarked'})
-
