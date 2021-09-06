@@ -11,7 +11,13 @@ from rest_framework.response import Response
 
 
 from .serializers import BookmarkedResourceSerializer, SeriesSerializer, SermonsSerializer
-from .services import bookmark_resource, decrement_like_on_model, get_bookmarks_for_resource, increment_like_on_model
+from .services import (
+    bookmark_resource,
+    decrement_like_on_model,
+    get_bookmarks_for_resource,
+    has_user_bookmarked,
+    increment_like_on_model
+)
 from bookmarking.exceptions import AlreadyExist, DoesNotExist
 from bookmarking.handlers import library
 from sermons.models import Series, Sermon
@@ -20,6 +26,18 @@ from sermons.models import Series, Sermon
 # Create your views here.
 
 library.register([Sermon])
+
+
+def resolve_model(func):
+    def decorator(requests, **kwargs):
+        if 'model' in kwargs:
+            print(kwargs['model'])
+            module = import_module('sermons.models')
+            klass = getattr(module, kwargs['model'].capitalize())
+            kwargs['model'] = klass
+
+        return func(requests, **kwargs)
+    return decorator
 
 
 class SeriesLists(ListAPIView):
@@ -40,12 +58,12 @@ class SeriesLists(ListAPIView):
     filter_backends = (DjangoFilterBackend,
                        OrderingFilter,)
     ordering_fields = ('starts_at', 'ends_at', 'title')
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class SeriesDetail(RetrieveAPIView):
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class SermonList(ListAPIView):
@@ -68,7 +86,6 @@ class SermonList(ListAPIView):
     filterset_class = SermonsFilter
     filter_backends = (DjangoFilterBackend, OrderingFilter,)
     ordering_fields = ('published', 'created_at', 'updated_at', 'preacher', 'title', 'series')
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class SermonDetail(RetrieveAPIView):
@@ -76,6 +93,7 @@ class SermonDetail(RetrieveAPIView):
     serializer_class = SermonsSerializer
 
 
+@resolve_model
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def update_likes_on_resource(request, pk, action, model: str):
@@ -89,9 +107,7 @@ def update_likes_on_resource(request, pk, action, model: str):
     :return:
     """
     try:
-        module = import_module('sermons.models')
-        klass = getattr(module, model.capitalize())
-        instance = get_object_or_404(klass, pk=pk)
+        instance = get_object_or_404(model, pk=pk)
 
         if action == 'add_like':
             increment_like_on_model(instance=instance, user=request.user)
@@ -110,23 +126,32 @@ def update_likes_on_resource(request, pk, action, model: str):
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
+@resolve_model
 def add_to_bookmark(request, pk, model):
     try:
-        module = import_module('sermons.models')
-        klass = getattr(module, model.capitalize())
-        instance = get_object_or_404(klass, pk=pk)
+        print(model)
+        instance = get_object_or_404(model, pk=pk)
         bookmark_resource(instance=instance, user=request.user)
         return Response(status=status.HTTP_204_NO_CONTENT, data='resource bookmarked')
     except AlreadyExist:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "already bookmarked"})
 
 
+@resolve_model
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-def list_bookmarks(request, model):
-    module = import_module('sermons.models')
-    klass = getattr(module, model.capitalize())
-    bookmarks = get_bookmarks_for_resource(user=request.user, model=klass)
+@permission_classes([IsAuthenticated])
+def my_bookmarks(request, model):
+    bookmarks = get_bookmarks_for_resource(user=request.user, model=model)
     serializer = BookmarkedResourceSerializer(many=True, data=bookmarks, context={'request': request})
     serializer.is_valid()
     return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@resolve_model
+@api_view(['GET'])
+def already_bookmarked(request, model, pk):
+    if has_user_bookmarked(user=request.user, model=model, pk=pk):
+        return Response(status=status.HTTP_200_OK, data={'message': 'Already bookmarked'})
+
+    return Response(status=status.HTTP_404_NOT_FOUND, data={'message': 'Not bookmarked'})
+
