@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'bookmarking.apps.BookmarkingConfig',
     'generic_relations',
+    'djrichtextfield',
 ]
 
 MIDDLEWARE = [
@@ -208,4 +209,19 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
     'UPDATE_LAST_LOGIN': True,
     'USER_AUTHENTICATION_RULE': lambda x: getattr(x, 'is_active', None) is True
+}
+
+DJRICHTEXTFIELD_CONFIG = {
+    'js': ['//cdn.ckeditor.com/4.14.0/standard/ckeditor.js'],
+    'init_template': 'djrichtextfield/init/ckeditor.js',
+    'settings': {  # CKEditor
+        'toolbar': [
+            {'items': ['Format', '-', 'Bold', 'Italic', '-',
+                       'RemoveFormat']},
+            {'items': ['Link', 'Unlink', 'Image', 'Table']},
+            {'items': ['Source']}
+        ],
+        'format_tags': 'p;h1;h2;h3',
+        'width': 700
+    }
 }
