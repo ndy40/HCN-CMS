@@ -40,3 +40,12 @@ def bookmark_resource(*, instance, user: User):
 
 def get_bookmarks_for_resource(user: User, model):
     return library.backend.filter(user=user, model=model, key='bookmark')
+
+
+def has_user_bookmarked(user: User, pk, model, key='bookmark'):
+    try:
+        instance = model.objects.get(pk=pk)
+        exists = library.backend.get(user=user, instance=instance, key=key)
+        return exists is not None
+    except DoesNotExist:
+        return False

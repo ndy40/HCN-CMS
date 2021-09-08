@@ -43,6 +43,8 @@ services:
       - internal_db
     volumes:
       - hcn_db_volume:/var/lib/postgresql/data
+    env_file:
+      - .env
     environment:
       POSTGRES_DB: ${PG_DATABASE}
       POSTGRES_USER: ${PG_USER}

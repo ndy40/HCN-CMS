@@ -2,7 +2,7 @@ import re
 
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 
 class HasDeviceHeader(BasePermission):
@@ -22,5 +22,5 @@ class HasDeviceHeader(BasePermission):
                 except StopIteration:
                     pass
             else:
-                print('no user')
+                return request.method in SAFE_METHODS
         return False

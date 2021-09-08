@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': os.environ['PG_DATABASE'],
         'USER': os.environ['PG_USER'],
         'PASSWORD': os.environ['PG_PASSWORD'],
-        'HOST': 'db',  # os.environ['PG_HOST'],
+        'HOST': os.environ['PG_HOST'],
         'PORT': '5432',
     }
 }
@@ -154,6 +154,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'accounts.api.permissions.HasDeviceHeader',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
