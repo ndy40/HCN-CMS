@@ -1,4 +1,4 @@
-FROM python:3.9.5-slim-buster
+FROM python:3.9.7-slim-buster
 
 ENV PYTHONUNBUFFERED=1
 ENV APP_ENV=${APP_ENV:-dev}
