@@ -105,10 +105,48 @@ class SermonsTestCase(TestSetupMixin, APITestCase):
                                      HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_liked_by_user_returns_error_if_already_liked(self):
+        create_sermon()
+        url = reverse('sermon-lists')
+        response = self.client.get(url, format='json', HTTP_X_DEVICE_ID=self._device_token)
+
+        sermon_id = response.json()['results'][0]['@id']
+        like_url = sermon_id + "add_bookmark/"
+        self.client.patch(like_url, format='json', HTTP_X_DEVICE_ID=self._device_token,
+                          HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
+        response = self.client.get(sermon_id + "liked_by_user", format='json', HTTP_X_DEVICE_ID=self._device_token,
+                                   HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
+        assert response.status_code == status.HTTP_200_OK
+
+    def test_liked_by_user_returns_404_if_sermon_not_bookmarked(self):
+        create_sermon()
+        url = reverse('sermon-lists')
+        response = self.client.get(url, format='json', HTTP_X_DEVICE_ID=self._device_token)
+
+        sermon_id = response.json()['results'][0]['@id']
+        response = self.client.get(sermon_id + "liked_by_user", format='json', HTTP_X_DEVICE_ID=self._device_token,
+                                   HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    def test_list_all_bookmarked_sermons(self):
+        create_sermon()
+        url = reverse('sermon-lists')
+        # add bookmarks
+        response = self.client.get(url, format='json', HTTP_X_DEVICE_ID=self._device_token)
+        sermon_id = response.json()['results'][0]['@id']
+        like_url = sermon_id + "add_bookmark/"
+        self.client.patch(like_url, format='json', HTTP_X_DEVICE_ID=self._device_token,
+                          HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
+        # list bookmarks
+        response = self.client.get(reverse('sermon-bookmarks'), format='json', HTTP_X_DEVICE_ID=self._device_token,
+                                   HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.json()) == 1
+
 
 class SeriesTestCase(TestSetupMixin, APITestCase):
     def test_user_can_bookmark_series(self):
-        create_sermon()
+        create_series()
         url = reverse('series-list')
         response = self.client.get(url, format='json', HTTP_X_DEVICE_ID=self._device_token)
         series_id = response.json()['results'][0]['@id']
@@ -118,7 +156,7 @@ class SeriesTestCase(TestSetupMixin, APITestCase):
         assert patch_response.status_code == status.HTTP_204_NO_CONTENT
 
     def test_user_cannot_bookmark_series_twice(self):
-        create_sermon()
+        create_series()
         url = reverse('series-list')
         response = self.client.get(url, format='json', HTTP_X_DEVICE_ID=self._device_token)
         series_id = response.json()['results'][0]['@id']
@@ -129,7 +167,31 @@ class SeriesTestCase(TestSetupMixin, APITestCase):
                                            HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
         assert patch_response.status_code == status.HTTP_400_BAD_REQUEST
 
+    def test_liked_by_user_returns_200_ok_when_already_liked(self):
+        create_series()
+        url = reverse('series-list')
+        response = self.client.get(url, format='json', HTTP_X_DEVICE_ID=self._device_token)
 
+        series_id = response.json()['results'][0]['@id']
+        like_url = series_id + "add_bookmark/"
+        self.client.patch(like_url, format='json', HTTP_X_DEVICE_ID=self._device_token,
+                          HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
+        response = self.client.get(series_id + "liked_by_user/", format='json', HTTP_X_DEVICE_ID=self._device_token,
+                                   HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
 
+        assert response.status_code == status.HTTP_200_OK
 
-
+    def test_list_all_bookmarked_series(self):
+        create_series()
+        url = reverse('series-list')
+        # add bookmarks
+        response = self.client.get(url, format='json', HTTP_X_DEVICE_ID=self._device_token)
+        series_id = response.json()['results'][0]['@id']
+        like_url = series_id + "add_bookmark/"
+        self.client.patch(like_url, format='json', HTTP_X_DEVICE_ID=self._device_token,
+                          HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
+        # list bookmarks
+        response = self.client.get(reverse('series-bookmarks'), format='json', HTTP_X_DEVICE_ID=self._device_token,
+                                   HTTP_AUTHORIZATION=f'Bearer {self._access_token}')
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.json()) == 1
