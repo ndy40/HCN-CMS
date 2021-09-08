@@ -31,7 +31,6 @@ library.register([Sermon])
 def resolve_model(func):
     def decorator(requests, **kwargs):
         if 'model' in kwargs:
-            print(kwargs['model'])
             module = import_module('sermons.models')
             klass = getattr(module, kwargs['model'].capitalize())
             kwargs['model'] = klass
@@ -115,7 +114,7 @@ def update_likes_on_resource(request, pk, action, model: str):
             decrement_like_on_model(instance=instance, user=request.user)
         response = Response(status=status.HTTP_204_NO_CONTENT)
     except AlreadyExist:
-        message = f'{model.capitalize()} #{instance.pk} is already bookmarked'
+        message = f'{model} #{instance.pk} is already bookmarked'
         response = Response(status=status.HTTP_400_BAD_REQUEST, data={"message": message})
     except (ValueError, DoesNotExist):
         message = f'{model.capitalize()} #{instance.pk} does not exists'
@@ -129,7 +128,6 @@ def update_likes_on_resource(request, pk, action, model: str):
 @resolve_model
 def add_to_bookmark(request, pk, model):
     try:
-        print(model)
         instance = get_object_or_404(model, pk=pk)
         bookmark_resource(instance=instance, user=request.user)
         return Response(status=status.HTTP_204_NO_CONTENT, data='resource bookmarked')

@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': os.environ['PG_DATABASE'],
         'USER': os.environ['PG_USER'],
         'PASSWORD': os.environ['PG_PASSWORD'],
-        'HOST': 'db',  # os.environ['PG_HOST'],
+        'HOST': os.environ['PG_HOST'],
         'PORT': '5432',
     }
 }
