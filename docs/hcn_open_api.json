@@ -449,8 +449,9 @@ paths:
                         schema:
                             type: object
                             properties:
-                                message: "Already bookmarked"
-
+                                message:
+                                    type: string
+                                    example: "Already bookmarked"
 components:
   securitySchemes:
       JWT:
