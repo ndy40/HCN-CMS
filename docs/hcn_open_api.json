@@ -238,6 +238,54 @@ paths:
           description: Series bookmarked
         '404':
           description: Series not found
+  /api/sermons/series/{id}/liked_by_user:
+      description: Check if a resource has been liked by a user
+      patch:
+          security:
+            - JWT: ['jwt-token']
+            - DeviceId: ["device123"]
+          operationId: likeSermonById
+          description: Add a like to a sermon
+          parameters:
+              - name: id
+                in: path
+                required: true
+                schema:
+                    type: integer
+                    example: 123
+          tags:
+              - series
+          responses:
+            204:
+                description: Series added to bookmark
+            400:
+                description: Already bookmarked
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                message:
+                                    type: string
+                                    example: "Already bookmarked"
+  /api/sermons/series/bookmarks:
+      description: List all user bookmarked series
+      get:
+          security:
+              - JWT: [jwt-token]
+              - Deviceid: [device123]
+          operationId: getSeriesBookmarks
+          responses:
+              200:
+                  description: list of series
+                  content:
+                      application/json:
+                          schema:
+                            type: array
+                            items:
+                                $ref: '#/components/schemas/Series'
+
+
   /api/sermons:
     description: Get all sermons available
     get:
