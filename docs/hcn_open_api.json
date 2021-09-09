@@ -38,6 +38,12 @@ paths:
               - DeviceId: ["device123"]
           tags:
               - accounts
+          parameters:
+              - name: id
+                required: true
+                schema:
+                    type: integer
+                in: path
           operationId: getDeviceConsent
           description: Get device consents
           responses:
@@ -55,6 +61,12 @@ paths:
               - accounts
           operationId: patchDeviceConsent
           description: Update device consent
+          parameters:
+              - name: id
+                required: true
+                schema:
+                    type: integer
+                in: path
           requestBody:
               content:
                   application/json:
