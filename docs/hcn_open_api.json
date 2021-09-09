@@ -210,7 +210,7 @@ paths:
                 $ref: '#/component/schemas/Series'
         '404':
           description: Resource not found
-  /api/sermons/series/{id}/bookmark:
+  /api/sermons/series/{id}/add_bookmark:
     description: >-
       Users will like to bookmark a series and as a result bookmark all the
       sermons under the series.
@@ -375,7 +375,7 @@ paths:
                       application/json:
                           schema:
                               $ref: '#/components/schemas/Sermons'
-  /api/sermons/{id}/bookmark:
+  /api/sermons/{id}/add_bookmark:
       description: Add sermon to user's bookmark
       patch:
           security:
@@ -422,6 +422,35 @@ paths:
                 description: Sermon added to bookmark
             404:
                 description: Resource not found
+  /api/sermons/{id}/liked_by_user:
+      description: Check if a resource has been liked by a user
+      patch:
+          security:
+            - JWT: ['jwt-token']
+            - DeviceId: ["device123"]
+          operationId: likeSermonById
+          description: Add a like to a sermon
+          parameters:
+              - name: id
+                in: path
+                required: true
+                schema:
+                    type: integer
+                    example: 123
+          tags:
+              - sermons
+          responses:
+            204:
+                description: Sermon added to bookmark
+            400:
+                description: Already bookmarked
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                message: Already bookmarked
+
 components:
   securitySchemes:
       JWT:
