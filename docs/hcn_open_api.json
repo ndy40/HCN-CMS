@@ -284,8 +284,8 @@ paths:
                             type: array
                             items:
                                 $ref: '#/components/schemas/Series'
-
-
+              404:
+                  description: No bookmark found
   /api/sermons:
     description: Get all sermons available
     get:
