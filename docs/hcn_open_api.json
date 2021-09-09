@@ -449,7 +449,7 @@ paths:
                         schema:
                             type: object
                             properties:
-                                message: Already bookmarked
+                                message: "Already bookmarked"
 
 components:
   securitySchemes:
