@@ -24,6 +24,7 @@ class SermonAdmin(admin.ModelAdmin):
 
 
 @admin.register(Preacher)
+@thumbnail('image')
 class PreacherAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['name', 'image_thumbnail']
     search_fields = ['name']
