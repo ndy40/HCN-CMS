@@ -8,6 +8,7 @@ services:
     volumes:
       - ./hcn_cms:/app/hcn_cms
       - web-static:/app/hcn_cms/static
+      - web-media:/app/hcn_cms/media
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000"
@@ -29,6 +30,7 @@ services:
       - "80:80"
     volumes:
       - web-static:/app/hcn_cms/static
+      - web-media:/app/hcn_cms/media
     networks:
       - internal_web
     depends_on:
@@ -68,6 +70,7 @@ networks:
 
 volumes:
   web-static:
+  web-media:
   web-django:
   hcn_db_volume:
     external: true

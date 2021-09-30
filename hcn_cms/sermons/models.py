@@ -17,6 +17,7 @@ def validate_sermon_notes(value):
 
 class Preacher(models.Model):
     name = models.CharField(max_length=250)
+    image = models.ImageField(upload_to='preacher', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True,)
 
     def __str__(self):
@@ -29,7 +30,7 @@ class Series(models.Model):
     starts_at = models.DateField(null=True, db_index=True)
     ends_at = models.DateField(null=True, db_index=True)
     cover_image = models.ImageField(
-        upload_to='static/image/series/%Y/%m/', null=True, blank=True)
+        upload_to='series/%Y/%m/', null=True, blank=True)
     tags = TagField()
 
     class Meta:
@@ -47,10 +48,8 @@ class Sermon(models.Model):
     """
     title = models.CharField(max_length=255)
     preacher = models.ManyToManyField('Preacher', related_name='preacher', db_index=True)
-    mime_type = models.CharField(max_length=255, db_index=True, null=True, blank=True)
     url = models.URLField(
         help_text="Link to sermon resource (recording or video) if any", null=True, blank=True)
-    size = models.IntegerField(null=True)
     description = RichTextField(null=True)
     likes = models.PositiveIntegerField(default=0, null=True)
     published = models.DateTimeField(null=True, db_index=True)
