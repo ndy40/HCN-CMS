@@ -63,10 +63,21 @@ services:
     networks:
       - internal_memcached
 
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    restart: unless-stopped
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+    networks:
+      - mailnetwork
+
+
 networks:
   internal_web:
   internal_db:
   internal_memcached:
+  mailnetwork:
 
 volumes:
   web-static:
