@@ -7,7 +7,7 @@ WORKDIR /app/hcn_cms/
 
 RUN apt-get update -y; \
     apt-get upgrade -y; \
-    apt-get install -y gcc build-essential postgresql-client libpq-dev \
+    apt-get install -y gcc build-essential postgresql-client libpq-dev git\
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 RUN pip install pipenv
