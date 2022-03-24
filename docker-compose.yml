@@ -20,6 +20,7 @@ services:
       - internal_web
       - internal_db
       - internal_memcached
+      - mailnetwork
     depends_on:
       - db
 
@@ -45,6 +46,7 @@ services:
       - internal_db
     volumes:
       - hcn_db_volume:/var/lib/postgresql/data
+      - ./hcn_cms/docker/sql/:/docker-entrypoint-initdb.d
     env_file:
       - .env
     environment:
@@ -67,7 +69,7 @@ services:
     image: mailhog/mailhog:v1.0.1
     restart: unless-stopped
     ports:
-      - 1025:1025 # smtp server
+      - 1025 # smtp server
       - 8025:8025 # web ui
     networks:
       - mailnetwork

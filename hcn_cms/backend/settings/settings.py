@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'bookmarking.apps.BookmarkingConfig',
     'generic_relations',
     'djrichtextfield',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +85,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mailhog'
-EMAIL_PORT = 1025
+EMAIL_PORT = '1025'
+EMAIL_HOST_USER = 'support@yopmail.com'
+EMAIL_HOST_PASSWORD = 'password'
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -231,4 +236,11 @@ DJRICHTEXTFIELD_CONFIG = {
         'format_tags': 'p;h1;h2;h3',
         'width': 700
     }
+}
+
+# Django_rest_passwordreset settings
+
+DJANGO_REST_LOOKUP_USER_ATTRIBUTES = {
+    'is_staff': False,
+    'is_superuser': False
 }
