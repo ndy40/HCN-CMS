@@ -16,14 +16,15 @@ class SeriesAdmin(admin.ModelAdmin):
 
 @admin.register(Sermon)
 class SermonAdmin(admin.ModelAdmin):
-    exclude = ['likes', 'mime_type', 'size']
-    list_display = ['title', 'who_is_preaching', 'published', 'series', 'url', 'mime_type']
+    exclude = ['likes']
+    list_display = ['title', 'who_is_preaching', 'published', 'series', 'url', 'likes']
     list_filter = ['preacher__name', 'series', 'published']
     date_hierarchy = 'published'
     search_fields = ['preacher__name', 'title', 'series__title']
 
 
 @admin.register(Preacher)
+@thumbnail('image')
 class PreacherAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['name', 'image_thumbnail']
     search_fields = ['name']

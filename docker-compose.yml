@@ -8,6 +8,7 @@ services:
     volumes:
       - ./hcn_cms:/app/hcn_cms
       - web-static:/app/hcn_cms/static
+      - web-media:/app/hcn_cms/media
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000"
@@ -19,6 +20,7 @@ services:
       - internal_web
       - internal_db
       - internal_memcached
+      - mailnetwork
     depends_on:
       - db
 
@@ -29,6 +31,7 @@ services:
       - "80:80"
     volumes:
       - web-static:/app/hcn_cms/static
+      - web-media:/app/hcn_cms/media
     networks:
       - internal_web
     depends_on:
@@ -43,6 +46,9 @@ services:
       - internal_db
     volumes:
       - hcn_db_volume:/var/lib/postgresql/data
+      - ./hcn_cms/docker/sql/:/docker-entrypoint-initdb.d
+    env_file:
+      - .env
     environment:
       POSTGRES_DB: ${PG_DATABASE}
       POSTGRES_USER: ${PG_USER}
@@ -59,13 +65,25 @@ services:
     networks:
       - internal_memcached
 
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    restart: unless-stopped
+    ports:
+      - 1025 # smtp server
+      - 8025:8025 # web ui
+    networks:
+      - mailnetwork
+
+
 networks:
   internal_web:
   internal_db:
   internal_memcached:
+  mailnetwork:
 
 volumes:
   web-static:
+  web-media:
   web-django:
   hcn_db_volume:
     external: true

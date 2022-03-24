@@ -1,7 +1,8 @@
 import re
 
 from django.conf import settings
-from rest_framework.permissions import BasePermission
+from django.contrib.auth.models import AnonymousUser
+from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 
 class HasDeviceHeader(BasePermission):
@@ -14,12 +15,12 @@ class HasDeviceHeader(BasePermission):
 
         if is_api_route and re.match(f"^((?!({excluded})).)*$", request.path) \
            and device_header in request.headers:
-            if request.user:
+            if request.user and not isinstance(request.user, AnonymousUser):
                 try:
                     next(filter(lambda device: device.get('id') == request.device.id, request.user.devices.values()))
                     return True
                 except StopIteration:
                     pass
             else:
-                print('no user')
+                return request.method in SAFE_METHODS
         return False

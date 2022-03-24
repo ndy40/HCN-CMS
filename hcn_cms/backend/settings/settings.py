@@ -13,7 +13,6 @@ import datetime
 import os
 from pathlib import Path
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,13 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sermons.apps.SermonsConfig',
+    'sermons',
     'tagging',
-    'api.apps.ApiConfig',
+    'api',
     'rest_framework',
     'django_filters',
     'accounts',
     'rest_framework_simplejwt.token_blacklist',
+    'bookmarking.apps.BookmarkingConfig',
+    'generic_relations',
+    'djrichtextfield',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -79,6 +82,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mailhog'
+EMAIL_PORT = '1025'
+EMAIL_HOST_USER = 'support@yopmail.com'
+EMAIL_HOST_PASSWORD = 'password'
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -144,6 +155,10 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = '/app/hcn_cms/static/'
 
+MEDIA_ROOT = '/app/hcn_cms/media/'
+
+MEDIA_URL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -152,6 +167,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'accounts.api.permissions.HasDeviceHeader',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -186,6 +202,9 @@ LOGGING = {
     },
 }
 
+DEBUG_PROPAGATE_EXCEPTIONS = True
+
+
 HCN_SETTINGS = {
     "DEVICE_HEADER": "x-device-id",
 }
@@ -201,5 +220,27 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=4),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
     'UPDATE_LAST_LOGIN': True,
-    'USER_AUTHENTICATION_RULE': lambda x: x.is_active is True
+    'USER_AUTHENTICATION_RULE': lambda x: getattr(x, 'is_active', None) is True
+}
+
+DJRICHTEXTFIELD_CONFIG = {
+    'js': ['//cdn.ckeditor.com/4.14.0/standard/ckeditor.js'],
+    'init_template': 'djrichtextfield/init/ckeditor.js',
+    'settings': {  # CKEditor
+        'toolbar': [
+            {'items': ['Format', '-', 'Bold', 'Italic', '-',
+                       'RemoveFormat']},
+            {'items': ['Link', 'Unlink', 'Image', 'Table']},
+            {'items': ['Source']}
+        ],
+        'format_tags': 'p;h1;h2;h3',
+        'width': 700
+    }
+}
+
+# Django_rest_passwordreset settings
+
+DJANGO_REST_LOOKUP_USER_ATTRIBUTES = {
+    'is_staff': False,
+    'is_superuser': False
 }

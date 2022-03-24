@@ -2,14 +2,142 @@ openapi: 3.0.0
 info:
   version: 0.1.0
   title: HCN-CMS-API
+security:
+    - JWT: ['jwt123']
+    - DeviceId: ['device123']
 servers:
-  - url: 'http://localhost:8000'
+  - url: 'http://localhost:8000'  
 paths:
+  /api/accounts/devices/register:
+      description: Register device on application installation
+      post:
+        description: Register a new device
+        security: []
+        operationId: postDeviceRegistration
+        tags: 
+            - accounts
+        responses:
+            201:
+                description: Successfully registered device
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Device'
+            400:
+                description: Bad request
+        requestBody:
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Device-write' 
+  /api/accounts/devices/{id}/consents:
+      description: Manage device consents
+      get:
+          security:
+              - JWT: ['jwt-token']
+              - DeviceId: ["device123"]
+          tags:
+              - accounts
+          parameters:
+              - name: id
+                required: true
+                schema:
+                    type: integer
+                in: path
+          operationId: getDeviceConsent
+          description: Get device consents
+          responses:
+              200:
+                  description: Device consent
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/DeviceConsent'
+      patch:
+          security:
+              - JWT: ['jwt-token']
+              - DeviceId: ["device123"]
+          tags:
+              - accounts
+          operationId: patchDeviceConsent
+          description: Update device consent
+          parameters:
+              - name: id
+                required: true
+                schema:
+                    type: integer
+                in: path
+          requestBody:
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/DeviceConsent-write'
+          responses:
+              201:
+                  description: Updated device consent
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/DeviceConsent'
+              400:
+                  description: Bad requests
+              401: 
+                  description: Validation error
+  /api/accounts/token:
+    description: Obtain user token for api request with username and password
+    post:
+      security: []
+      description: Post username and password to obtain token
+      operationId: getAuthToken
+      tags:
+        - accounts
+      requestBody:
+          content:
+              application/json:
+                schema:
+                    type: object
+                    properties:
+                        username: 
+                            type: string
+                        password:
+                            type: string
+      responses:
+        200:
+            description: Access token
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/AccessToken'
+  /api/accounts/token/refresh:
+      description: Refresh token
+      post:
+        security: []
+        description: Refresh token
+        operationId: refreshToken
+        requestBody:
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            refresh:
+                                type: string
+                                example: refresh123
+        responses:
+            200:
+                description: Access token
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AccessToken'                   
   /api/sermons/series:
     description: >-
       A series is a way to group and categorise sermons together and usually
       have a start and end date that spans weeks or months.
     get:
+      security:
+        - JWT: ['jwt-token']
+        - DeviceId: ["device123"]
       description: Fetch all series
       operationId: getAllSeries
       tags:
@@ -66,6 +194,9 @@ paths:
   /api/sermons/series/{id}:
     description: Each series has a unique Id that can be requested for
     get:
+      security:
+        - JWT: ['jwt-token']
+        - DeviceId: ["device123"]
       description: Fetch series by id
       operationId: getSeriesByid
       tags:
@@ -91,11 +222,14 @@ paths:
                 $ref: '#/component/schemas/Series'
         '404':
           description: Resource not found
-  /api/sermons/series/{id}/bookmark:
+  /api/sermons/series/{id}/add_bookmark:
     description: >-
       Users will like to bookmark a series and as a result bookmark all the
       sermons under the series.
     patch:
+      security:
+        - JWT: ['jwt-token']
+        - DeviceId: ["device123"]
       description: A user can choose to bookmark a preaching series
       tags:
         - series
@@ -116,9 +250,60 @@ paths:
           description: Series bookmarked
         '404':
           description: Series not found
+  /api/sermons/series/{id}/liked_by_user:
+      description: Check if a resource has been liked by a user
+      patch:
+          security:
+            - JWT: ['jwt-token']
+            - DeviceId: ["device123"]
+          operationId: likeSermonById
+          description: Add a like to a sermon
+          parameters:
+              - name: id
+                in: path
+                required: true
+                schema:
+                    type: integer
+                    example: 123
+          tags:
+              - series
+          responses:
+            204:
+                description: Series added to bookmark
+            400:
+                description: Already bookmarked
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                message:
+                                    type: string
+                                    example: "Already bookmarked"
+  /api/sermons/series/bookmarks:
+      description: List all user bookmarked series
+      get:
+          security:
+              - JWT: [jwt-token]
+              - Deviceid: [device123]
+          operationId: getSeriesBookmarks
+          responses:
+              200:
+                  description: list of series
+                  content:
+                      application/json:
+                          schema:
+                            type: array
+                            items:
+                                $ref: '#/components/schemas/Series'
+              404:
+                  description: No bookmark found
   /api/sermons:
     description: Get all sermons available
     get:
+      security:
+        - JWT: ['jwt-token']
+        - DeviceId: ["device123"]
       tags:
         - sermons
       parameters:
@@ -195,6 +380,9 @@ paths:
                   items: 
                       $ref: '#/components/schemas/Sermons'
     post:
+        security:
+            - JWT: ['jwt-token']
+            - DeviceId: ["device123"]
         description: Create a new sermon
         tags: 
             - sermons
@@ -222,6 +410,9 @@ paths:
   /api/sermons/{id}:
       description: Sermon resource
       get:
+          security:
+            - JWT: ['jwt-token']
+            - DeviceId: ["device123"]
           tags:
               - sermons
           operationId: getSermonById
@@ -244,9 +435,12 @@ paths:
                       application/json:
                           schema:
                               $ref: '#/components/schemas/Sermons'
-  /api/sermons/{id}/bookmark:
+  /api/sermons/{id}/add_bookmark:
       description: Add sermon to user's bookmark
       patch:
+          security:
+            - JWT: ['jwt-token']
+            - DeviceId: ["device123"]
           operationId: bookmarkSermonById
           description: Add sermon to user's bookmarks
           parameters:
@@ -269,14 +463,12 @@ paths:
   /api/sermons/{id}/add_like:
       description: Like a sermon
       patch:
+          security:
+            - JWT: ['jwt-token']
+            - DeviceId: ["device123"]
           operationId: likeSermonById
           description: Add a like to a sermon
           parameters:
-              - name: x-hcn-deviceid
-                in: header
-                required: true
-                schema:
-                    type: string
               - name: id
                 in: path
                 required: true
@@ -286,67 +478,62 @@ paths:
           tags:
               - sermons
           responses:
-              204:
-                  description: Sermon added to bookmark
-  /api/accounts/devices/register:
-      description: Register device on application installation
-      post:
-        description: Register a new device
-        operationId: postDeviceRegistration
-        tags: 
-            - accounts
-        responses:
-            201:
-                description: Successfully registered device
+            204:
+                description: Sermon added to bookmark
+            404:
+                description: Resource not found
+  /api/sermons/{id}/liked_by_user:
+      description: Check if a resource has been liked by a user
+      patch:
+          security:
+            - JWT: ['jwt-token']
+            - DeviceId: ["device123"]
+          operationId: likeSermonById
+          description: Add a like to a sermon
+          parameters:
+              - name: id
+                in: path
+                required: true
+                schema:
+                    type: integer
+                    example: 123
+          tags:
+              - sermons
+          responses:
+            204:
+                description: Sermon added to bookmark
+            400:
+                description: Already bookmarked
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Device'
-            400:
-                description: Bad request
-        requestBody:
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/Device-write' 
-  /api/accounts/devices/{id}/consents:
-      description: Manage device consents
-      get:
-          tags:
-              - accounts
-          operationId: getDeviceConsent
-          description: Get device consents
-          responses:
-              200:
-                  description: Device consent
-                  content:
-                      application/json:
-                          schema:
-                              $ref: '#/components/schemas/DeviceConsent'
-      patch:
-          tags:
-              - accounts
-          operationId: patchDeviceConsent
-          description: Update device consent
-          requestBody:
-              content:
-                  application/json:
-                      schema:
-                          $ref: '#/components/schemas/DeviceConsent-write'
-          responses:
-              201:
-                  description: Updated device consent
-                  content:
-                      application/json:
-                          schema:
-                              $ref: '#/components/schemas/DeviceConsent'
-              400:
-                  description: Bad requests
-              401: 
-                  description: Validation error
-
+                            type: object
+                            properties:
+                                message:
+                                    type: string
+                                    example: "Already bookmarked"
 components:
+  securitySchemes:
+      JWT:
+        type: http
+        scheme: bearer
+        description: JWT token
+        bearerFormat: jwt
+      DeviceId:
+        type: apiKey
+        name: x-deviceid
+        in: header
+        description: Device Header
   schemas:
+    AccessToken:
+        type: object
+        properties:
+            access: 
+                type: string
+                example: token123
+            refresh: 
+                type: string
+                example: refresh123
     Device:
         type: object
         properties:
