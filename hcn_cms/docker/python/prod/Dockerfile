@@ -2,6 +2,7 @@ FROM python:3.9.5-buster
 ENV PYTHONUNBUFFERED=1
 WORKDIR /app/
 COPY ../Pipfile* /app
+RUN apt install -y git
 RUN pip install pipenv && pipenv install --system
 COPY . /app/
 EXPOSE 8000

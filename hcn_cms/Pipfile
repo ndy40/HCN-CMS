@@ -4,11 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django="~=3.2.11"
+django="~=3.2.0"
 gunicorn="~=20.1.0"
 psycopg2-binary="~=2.8"
 pymemcache="~=3.4.4"
-pillow="~=9.0.0"
+pillow="~=8.3.2"
 django-tagging="~=0.5.0"
 django-admin-thumbnails="~=0.2.6"
 djangorestframework="~=3.12.4"
@@ -17,6 +17,7 @@ django-guardian="~=2.4.0"
 djangorestframework-simplejwt="~=4.7.2"
 rest-framework-generic-relations="~=2.1.0"
 django-richtextfield="~=1.6.1"
+django-rest-passwordreset={ git = 'https://github.com/ndy40/django-rest-passwordreset.git', editable = true }
 
 
 [dev-packages]

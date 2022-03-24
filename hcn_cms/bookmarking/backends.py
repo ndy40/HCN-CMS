@@ -99,7 +99,7 @@ class ModelBackend(BaseBackend):
 
     @transaction.atomic
     def remove_all_for(self, instance):
-        return self.get_model().objects.remove_all_for(content_object=instance)
+        return self.get_model().objects.remove_all_for(instance)
 
     def filter(self, **kwargs):
         """
