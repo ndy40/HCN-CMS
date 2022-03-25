@@ -102,14 +102,13 @@ class BookmarkManager(models.Manager):
         bookmark.delete()
         return bookmark
 
-    def remove_all_for(self, user, content_object):
+    def remove_all_for(self, content_object):
         """
         Remove all bookmarks for the given model instance.
 
         The application uses this whenever a bookmarkable model instance
         is deleted, in order to maintain the integrity of the bookmarks table.
 
-        :param user:
         :param content_object:
         :return:
         """
