@@ -1,6 +1,9 @@
 from django.db import transaction
+from django.shortcuts import render
+from django.urls import reverse
 
 from rest_framework import status
+from rest_framework.decorators import permission_classes
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -9,6 +12,7 @@ from .permissions import HasDeviceHeader
 from .serializers import DeviceSerializer, RegisterUserSerializer, UserSerializer
 from .services import attach_device_to_user
 from accounts.models import Device, User
+from accounts.forms import ResetPasswordForm
 
 
 class DeviceRegisterView(CreateAPIView):
@@ -53,3 +57,18 @@ class UserDetailView(RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, HasDeviceHeader]
+
+
+@permission_classes([AllowAny])
+def display_password_form(request, token):
+    if not token:
+        raise ValueError('invalid token')
+
+    reset_form = ResetPasswordForm(initial={'token': token})
+    context = {
+        'form': reset_form,
+        'reset_url': request.build_absolute_uri(reverse('accounts:password_reset:reset-password-confirm'))
+    }
+
+    return render(request, 'email/update_password_form.html', context)
+

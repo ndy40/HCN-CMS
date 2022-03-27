@@ -38,17 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # packages
+    'rest_framework',
+    'django_rest_passwordreset',
+    'djrichtextfield',
+    'django_filters',
+    'rest_framework_simplejwt.token_blacklist',
+    'django_extensions',
+
+    # local apps
     'sermons',
     'tagging',
     'api',
-    'rest_framework',
-    'django_filters',
     'accounts',
-    'rest_framework_simplejwt.token_blacklist',
     'bookmarking.apps.BookmarkingConfig',
     'generic_relations',
-    'djrichtextfield',
-    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -195,10 +199,10 @@ LOGGING = {
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
             'propagate': False,
         },
-        # 'django.db.backends': {
-        #     'level': 'DEBUG',
-        #     'handlers': ['console'],
-        # }
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        }
     },
 }
 

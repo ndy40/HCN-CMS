@@ -6,8 +6,12 @@ from .views import (
     DeviceRegisterView,
     DevicesListView,
     RegisterUserView,
-    UserDetailView)
+    UserDetailView,
+    display_password_form
+)
 
+
+app_name = 'accounts'
 
 urlpatterns = [
     path('devices/register', DeviceRegisterView.as_view(), name="device-create"),
@@ -23,5 +27,6 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Password reset route
-    path(r'send_reset_password/', include('django_rest_passwordreset.urls', namespace='password_reset'))
+    path(r'send_reset_password/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path(r'update_password/<str:token>', display_password_form, name='display_password_form')
 ]
