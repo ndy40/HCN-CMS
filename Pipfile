@@ -18,6 +18,9 @@ django-richtextfield="~=1.6.1"
 pyjwt="~=2.2.0"
 pymemcache="~=3.4.4"
 pytz="~=2021.3"
+django-rest-passwordreset="~=1.2.1"
+django-extensions="~=3.1.5"
+pylint = "*"
 
 [dev-packages]
 flake8-import-order-spoqa= "~=1.5.0"
